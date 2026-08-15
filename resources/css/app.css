@@ -1,9 +1,68 @@
-@import 'tailwindcss';
+*,
+::before,
+::after {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    object-fit: cover;
+}
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+:root {
+    --spacing-s: 5px;
+    --spacing-m: 10px;
+    --spacing-l: 15px;
+    --spacing-xl: 20px;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+button {
+    cursor: pointer;
+}
+
+.upload-form {
+    border: 1px dashed rgba(61, 61, 61, 0.5);
+    background-color: rgba(211, 211, 211, 0.1);
+    max-width: 50%;
+    height: 500px;
+    margin: calc(var(--spacing-xl) * 2) auto;
+    padding: var(--spacing-xl);
+    border-radius: var(--spacing-xl);
+    font-size: 1.25rem;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.upload-form:hover {
+    background-color: rgba(211, 211, 211, 0.3);
+}
+
+.upload-form .upload-label {
+    display: flex;
+    flex-direction: column;
+    row-gap: calc(var(--spacing-l) * 2);
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+.upload-form .upload-icon {
+    width: 50px;
+}
+
+.upload-form .required-sign {
+    color: red;
+}
+
+.upload-form .browse-btn {
+    padding: var(--spacing-s) var(--spacing-xl);
+    background-color: #2492ff;
+    font-size: 1.5rem;
+    border-radius: var(--spacing-xl);
+    border: none;
+    color: white;
+    transition: all 0.15s ease-in-out;
+}
+
+.upload-form .browse-btn:hover {
+    background-color: #0080ff;
 }
