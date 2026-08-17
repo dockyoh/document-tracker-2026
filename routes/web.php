@@ -6,4 +6,4 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::view('document/create', 'document.create');
+Route::view('/document/upload', 'document.upload');

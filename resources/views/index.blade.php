@@ -12,7 +12,7 @@
         <h1>Document Tracker</h1>
         <nav>
             <ul>
-                <li><a href="/document/create">Upload</a></li>
+                <li><a href="document/upload">Upload</a></li>
             </ul>
         </nav>
     </header>

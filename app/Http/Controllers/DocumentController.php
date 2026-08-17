@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
+use Illuminate\Support\Str;
 
 // use Dom\Document;
 use Illuminate\Http\Request;
@@ -14,18 +16,27 @@ class DocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
-    {
-        $documents = Document::all();
-        return DocumentResource::collection($documents);
-    }
+    public function index() {}
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDocumentRequest $request): DocumentResource
     {
-        //
+        $file = $request->file('document');
+
+        $filePath = $file->store('documents', 'local');
+
+        $document = Document::create([
+            'tracking_number' => 'DOC-' . strtoupper(Str::random(8)),
+            'title'           => $request->validated('title'),
+            'original_name'   => $file->getClientOriginalName(),
+            'file_path'       => $filePath,
+            'file_size'       => $file->getSize(),
+            'mime_type'       => $file->getMimeType(),
+            'status'          => 'Pending'
+        ]);
+        return new DocumentResource($document);
     }
 
     /**

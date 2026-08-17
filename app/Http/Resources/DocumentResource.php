@@ -16,11 +16,14 @@ class DocumentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tracking_code' => $this->tracking_code,
+            'tracking_number' => $this->tracking_number,
             'title' => $this->title,
+            'original_name' => $this->original_name,
+            'mime_type' => $this->mime_type,
+            'file_size_human' => round($this->file_size / 1024 / 2024, 2) . 'MB',
             'status' => $this->status,
-            'created_at' => $this->created_at->toIso8601String(),
-            'updated_human' => $this->updated_at->diffForHumans()
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_human' => $this->updated_at?->diffForHumans()
         ];
     }
 }

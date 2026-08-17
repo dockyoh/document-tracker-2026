@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
+    @vite('resources/js/upload.js')
     <title>Document Tracker - Upload</title>
 </head>
 <body>
@@ -19,7 +20,7 @@
     <main>
         <form action="" method="post" class="upload-form" enctype="multipart/form-data">
             <input type="file" name="file_input" id="file-input" accept=".pdf, docx, doc, .txt" hidden>
-            <label for="file-input" class="upload-label">
+            <label for="file-input" class="upload-label drop-zone">
                 <img src="/images/upload.png" alt="upload icon" class="upload-icon">
                 <span class="browse-btn">Browse</span>
                 <p class="upload-guide">Drop a file here</p>

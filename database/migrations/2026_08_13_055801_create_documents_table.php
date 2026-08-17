@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('tracking_code')->unique();
+            $table->string('tracking_number')->unique();
             $table->string('title');
+            $table->string('original_name');
+            $table->string('file_path');
+            $table->string('mime_type');
+            $table->unsignedBigInteger('file_size');
             $table->string('status')->default('Pending');
             $table->timestamps();
         });
