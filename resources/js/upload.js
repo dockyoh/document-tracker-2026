@@ -1,3 +1,5 @@
+import { uploadAPI } from "./api.js";
+
 const fileInput = document.querySelector("#file-input");
 const submitBtn = document.querySelector(".submit-btn");
 const uploadForm = document.querySelector(".upload-form");
@@ -20,7 +22,7 @@ fileInput.addEventListener("change", (e) => {
     }
 });
 
-submitBtn.addEventListener("click", (e) => {
+submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const file = fileInput.files[0];
@@ -33,4 +35,8 @@ submitBtn.addEventListener("click", (e) => {
 
     const formData = new FormData();
     formData.append("document", file);
+
+    const apiResponse = await uploadAPI(formData);
+
+    console.log("API Response:", apiResponse);
 });
