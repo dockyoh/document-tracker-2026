@@ -1,8 +1,14 @@
 import { uploadAPI } from "./api.js";
+import {
+    renderUploadErrors,
+    renderSelectedFile,
+    resetFileInput,
+} from "./dom.js";
 
 const fileInput = document.querySelector("#file-input");
-const submitBtn = document.querySelector(".submit-btn");
+const uploadBtn = document.querySelector(".upload-btn");
 const uploadForm = document.querySelector(".upload-form");
+const templateContainer = document.querySelector(".template-container");
 
 const CONFIG = {
     MAX_SIZE_MB: 5,
@@ -10,33 +16,57 @@ const CONFIG = {
         "application/pdf",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "application/msword",
+        "text/plain",
     ],
     UPLOAD_ENDPOINT: "/api/documents",
 };
 
+let fileSelected = null;
+
 fileInput.addEventListener("change", (e) => {
-    if (fileInput.files[0]) {
-        submitBtn.disabled = false;
-    } else {
-        submitBtn.disabled = true;
+    if (e.target.files.length > 0) {
+        handleFileSelection(e.target.files[0]);
     }
 });
 
-submitBtn.addEventListener("click", async (e) => {
+// UPLOAD BUTTON
+uploadBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
-    const file = fileInput.files[0];
-
-    if (!file) {
-        submitBtn.disabled = true;
-        return;
-    }
-    console.log(file);
+    if (!fileSelected) return;
 
     const formData = new FormData();
-    formData.append("document", file);
+    formData.append("document", fileSelected);
 
     const apiResponse = await uploadAPI(formData);
 
     console.log("API Response:", apiResponse);
 });
+
+// REMOVE BUTTON
+templateContainer.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.closest(".remove-btn")) {
+        console.log("remove button activated");
+        fileSelected = resetFileInput();
+        console.log(fileSelected);
+    }
+});
+
+function handleFileSelection(file) {
+    console.log(file);
+    if (!CONFIG.ALLOWED_TYPES.includes(file.type)) {
+        renderUploadErrors(file, "type");
+        return;
+    }
+
+    const maxSizeBytes = CONFIG.MAX_SIZE_MB * 1024 * 1024;
+    if (file.size > maxSizeBytes) {
+        renderUploadErrors(file, CONFIG.MAX_SIZE_MB);
+        return;
+    }
+
+    fileSelected = file;
+    console.log(fileSelected);
+    renderSelectedFile(file, uploadBtn);
+}

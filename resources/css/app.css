@@ -15,6 +15,10 @@
     --form-width: 50%;
 }
 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .upload-form {
     border: 1px dashed rgba(61, 61, 61, 0.5);
     background-color: rgba(211, 211, 211, 0.1);
@@ -72,7 +76,7 @@
     background-color: #00478f;
 }
 
-.upload-form .submit-btn {
+.upload-form .upload-btn {
     cursor: pointer;
     border: 1px solid black;
     position: absolute;
@@ -87,12 +91,49 @@
     transition: all 0.15s ease-in-out;
 }
 
-.upload-form .submit-btn:hover {
+.upload-form .upload-btn:hover {
     background-color: #00478f;
 }
 
-.upload-form .submit-btn:disabled {
+.upload-form .upload-btn:disabled {
     background-color: rgba(211, 211, 211, 0.5);
     cursor: not-allowed;
     color: rgba(128, 128, 128, 0.6);
+}
+
+.upload-form .file-preview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed gray;
+    padding: var(--spacing-m);
+    gap: var(--spacing-m);
+    border-radius: var(--spacing-m);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.upload-form .remove-btn {
+    padding: var(--spacing-s);
+    border-radius: var(--spacing-s);
+    border: none;
+    background-color: #2492ff;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.upload-form .remove-btn:hover {
+    background-color: #00478f;
+}
+
+.upload-form .error-message {
+    color: red;
+}
+
+.upload-form .file-name {
+    font-weight: bold;
 }

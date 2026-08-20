@@ -24,7 +24,7 @@ class StoreDocumentRequest extends FormRequest
     {
         return [
             'title' => 'string|max:255',
-            'document' => 'required|file|mimes:pdf,doc,docx|max:10240',
+            'document' => 'required|file|mimes:pdf,doc,docx,txt|max:10240',
         ];
     }
 }
