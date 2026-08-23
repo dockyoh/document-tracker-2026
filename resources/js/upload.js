@@ -11,7 +11,7 @@ const uploadForm = document.querySelector(".upload-form");
 const templateContainer = document.querySelector(".template-container");
 
 const CONFIG = {
-    MAX_SIZE_MB: 5,
+    MAX_SIZE_MB: 10,
     ALLOWED_TYPES: [
         "application/pdf",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

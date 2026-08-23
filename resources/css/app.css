@@ -19,6 +19,22 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: pink;
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+header .user-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-m);
+}
+
 .upload-form {
     border: 1px dashed rgba(61, 61, 61, 0.5);
     background-color: rgba(211, 211, 211, 0.1);
@@ -136,4 +152,12 @@ body {
 
 .upload-form .file-name {
     font-weight: bold;
+}
+
+.signup-form {
+    margin-bottom: var(--spacing-xl);
+}
+
+.errors-container {
+    color: red;
 }

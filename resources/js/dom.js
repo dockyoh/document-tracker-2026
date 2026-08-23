@@ -47,3 +47,5 @@ export function renderLoading() {
 export function renderDoneLoading() {
     document.querySelector(".upload-btn").textContent = "Upload File";
 }
+
+export function renderRegisterErrors(errors) {}

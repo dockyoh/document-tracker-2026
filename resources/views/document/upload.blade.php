@@ -16,6 +16,10 @@
                 <li><a href="/">Home</a></li>
             </ul>
         </nav>
+         <div class="user-container">
+            <p class="username">Reygin Susas</p>
+            <button class="logout-button">Logout</button>
+        </div>
     </header>
     <main>
         {{-- UPLOAD FORM --}}

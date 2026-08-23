@@ -13,6 +13,12 @@ class Document extends Model
         'file_path',
         'file_size',
         'mime_type',
-        'status'
+        'status',
+        'focal_person_id'
     ];
+
+    public function focalPerson()
+    {
+        return $this->belongsTo(User::class, 'focal_person_id');
+    }
 }
