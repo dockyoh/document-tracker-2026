@@ -154,7 +154,8 @@ header .user-container {
     font-weight: bold;
 }
 
-.signup-form {
+.signup-form,
+.login-form {
     margin-bottom: var(--spacing-xl);
 }
 
