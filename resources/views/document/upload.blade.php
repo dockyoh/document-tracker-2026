@@ -6,6 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     @vite('resources/js/upload.js')
+    {{-- SECURITY GUARD VVV --}}
+    <script>
+        const token = localStorage.getItem("authToken");
+        if(!token){
+            window.location.href = "/user/login";
+        }
+    </script>
+    {{-- SECURITY GUARD ^^^ --}}
     <title>Document Tracker - Upload</title>
 </head>
 <body>

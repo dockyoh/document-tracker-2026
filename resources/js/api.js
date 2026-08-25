@@ -1,24 +1,29 @@
 import { renderLoading, renderDoneLoading } from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
-export async function uploadAPI(formData) {
+// UPLOAD API
+export async function uploadAPI(formData, token) {
     try {
         renderLoading();
 
         const response = await fetch("/api/documents", {
             method: "POST",
-            headers: { Accept: "application/json" },
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
             body: formData,
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error status: ${response.status}`);
+            if (response.status === 401) {
+                window.location.href = "/user/login";
+                return;
+            }
+            // throw new Error(`HTTP error status: ${response.status}`);
         }
 
-        const result = await response.json();
-
         renderDoneLoading();
-        return result.data;
     } catch (error) {
         console.error("Failed to upload fetch formData ", error);
     }
@@ -70,8 +75,37 @@ export async function loginAPI(formData) {
         }
 
         localStorage.setItem("authToken", loginResult.token);
-        window.location.href = "/document/upload";
+        window.location.href = "/";
     } catch (error) {
         console.error("FAILED TO FETCH LOGIN ", error);
+    }
+}
+
+export async function logoutAPI(token) {
+    if (!token) {
+        localStorage.clear();
+        window.location.href = "/user/login";
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/logout", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error status: ${response.status}`);
+        }
+
+        localStorage.clear();
+        window.location.href = "/user/login";
+        return;
+    } catch (error) {
+        console.error("FAILED TO FETCH LOGOUT ", error);
     }
 }

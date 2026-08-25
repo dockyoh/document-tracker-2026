@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+// use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,5 +56,9 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function logout() {}
+    public function logout(Request $request): Response
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->noContent();
+    }
 }

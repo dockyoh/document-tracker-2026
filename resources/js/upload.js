@@ -1,4 +1,4 @@
-import { uploadAPI } from "./api.js";
+import { logoutAPI, uploadAPI } from "./api.js";
 import {
     renderUploadErrors,
     renderSelectedFile,
@@ -7,8 +7,8 @@ import {
 
 const fileInput = document.querySelector("#file-input");
 const uploadBtn = document.querySelector(".upload-btn");
-const uploadForm = document.querySelector(".upload-form");
 const templateContainer = document.querySelector(".template-container");
+const token = localStorage.getItem("authToken");
 
 const CONFIG = {
     MAX_SIZE_MB: 10,
@@ -38,9 +38,7 @@ uploadBtn.addEventListener("click", async (e) => {
     const formData = new FormData();
     formData.append("document", fileSelected);
 
-    const apiResponse = await uploadAPI(formData);
-
-    console.log("API Response:", apiResponse);
+    await uploadAPI(formData, token);
 });
 
 // REMOVE BUTTON
@@ -54,7 +52,6 @@ templateContainer.addEventListener("click", (e) => {
 });
 
 function handleFileSelection(file) {
-    console.log(file);
     if (!CONFIG.ALLOWED_TYPES.includes(file.type)) {
         renderUploadErrors(file, "type");
         return;
@@ -70,3 +67,10 @@ function handleFileSelection(file) {
     console.log(fileSelected);
     renderSelectedFile(file, uploadBtn);
 }
+
+document
+    .querySelector(".logout-button")
+    .addEventListener("click", async (e) => {
+        console.log(token);
+        await logoutAPI(token);
+    });
