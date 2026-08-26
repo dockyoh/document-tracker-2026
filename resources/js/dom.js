@@ -2,6 +2,7 @@ const templateContainer = document.querySelector(".template-container");
 const fragment = document.createDocumentFragment();
 const previewTemplate = document.querySelector(".file-preview-template");
 const errorTemplate = document.querySelector(".upload-error-template");
+const documentTemplate = document.querySelector(".document-item-template");
 
 export function renderUploadErrors(file, errorType) {
     templateContainer.textContent = "";
@@ -52,4 +53,22 @@ export function renderRegisterErrors(errors) {}
 
 export function renderLogUser(username) {
     document.querySelector(".log-user").textContent = username;
+}
+
+export function renderDocuments(documents) {
+    documents.forEach((document) => {
+        console.log(document);
+        const clone = documentTemplate.content.cloneNode(true);
+
+        clone.querySelector(".tracking-number").textContent =
+            document.tracking_number;
+        clone.querySelector(".file-name").textContent = document.original_name;
+        clone.querySelector(".status").textContent = document.status;
+        clone.querySelector(".created-at").textContent = document.created_at;
+        clone.querySelector(".updated-at").textContent = document.updated_human;
+        clone.querySelector(".focal").textContent = document.focal;
+
+        fragment.appendChild(clone);
+    });
+    templateContainer.appendChild(fragment);
 }

@@ -1,6 +1,29 @@
 import { renderLoading, renderDoneLoading } from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
+export async function getDocumentsAPI(token) {
+    try {
+        const response = await fetch("/api/documents", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const documentsResult = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP ERROR STATUS: ${response.status}`);
+        }
+
+        // console.log(documentsResult);
+        return documentsResult.data;
+    } catch (error) {
+        console.error("FAILED TO FETCH DOCUMENTS ", error);
+    }
+}
+
 // UPLOAD API
 export async function uploadAPI(formData, token) {
     try {
@@ -24,6 +47,7 @@ export async function uploadAPI(formData, token) {
         }
 
         renderDoneLoading();
+        window.location.href = "/";
     } catch (error) {
         console.error("Failed to upload fetch formData ", error);
     }

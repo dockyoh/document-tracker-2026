@@ -18,7 +18,7 @@
 </head>
 <body>
    <header>
-        <h1>Document Tracker</h1>
+        <h1>Upload</h1>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>

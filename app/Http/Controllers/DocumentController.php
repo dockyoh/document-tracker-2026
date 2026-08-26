@@ -16,7 +16,12 @@ class DocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
+    public function index(): AnonymousResourceCollection
+    {
+        $documents = Document::with('focalPerson')->get();
+
+        return DocumentResource::collection($documents);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +39,8 @@ class DocumentController extends Controller
             'file_path'       => $filePath,
             'file_size'       => $file->getSize(),
             'mime_type'       => $file->getMimeType(),
-            'status'          => 'Pending'
+            'status'          => 'Pending',
+            'focal_person_id' => $request->user()->id
         ]);
         return new DocumentResource($document);
     }

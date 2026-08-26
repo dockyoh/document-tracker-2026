@@ -22,6 +22,7 @@ class DocumentResource extends JsonResource
             'mime_type' => $this->mime_type,
             'file_size_human' => round($this->file_size / 1024 / 2024, 2) . 'MB',
             'status' => $this->status,
+            'focal' => $this->focalPerson?->name,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_human' => $this->updated_at?->diffForHumans()
         ];

@@ -27,9 +27,11 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: pink;
+    /* background-color: pink; */
+    background-color: rgba(255, 0, 0, 0.5);
     padding: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
+    color: white;
 }
 
 header .user-container {
@@ -165,4 +167,57 @@ header .user-container {
 
 .errors-container {
     color: red;
+}
+
+/* DOCUMENT TABLE LIST SECTION */
+.document-table-container {
+    max-width: 98%;
+    margin: auto;
+}
+
+.column-name-container {
+    margin-bottom: var(--spacing-m);
+}
+
+.column-name-container,
+.document-item {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr) 150px 150px 240px 150px;
+    /* grid-template-columns: repeat(6, 1fr); */
+    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+    /* gap: var(--spacing-m); */
+    /* border: 1px solid rgba(0, 0, 0, 0.5); */
+    border-radius: var(--spacing-m);
+    padding: var(--spacing-s);
+}
+
+.column-name-container {
+    background-color: rgba(255, 255, 0, 0.5);
+    border: 1px solid lightgray;
+}
+
+.document-item {
+    /* background-color: rgba(211, 211, 211, 0.5); */
+    background-color: rgba(173, 216, 230, 0.5);
+    margin-bottom: var(--spacing-s);
+    transition: all 0.15s ease-in-out;
+}
+
+.document-item:hover {
+    background-color: rgb(173, 216, 230);
+    cursor: pointer;
+}
+
+.column-name-container .column-name {
+    font-weight: bold;
+}
+
+.column-name-container .column-name {
+    /* border: 1px solid black; */
+}
+
+.file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
