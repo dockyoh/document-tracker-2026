@@ -25,7 +25,7 @@
             </ul>
         </nav>
         <div class="user-container">
-            <p class="username">Reygin Susas</p>
+            <p class="log-user"></p>
             <button class="logout-button">Logout</button>
         </div>
     </header>

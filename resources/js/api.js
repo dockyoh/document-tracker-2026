@@ -74,7 +74,9 @@ export async function loginAPI(formData) {
             return;
         }
 
+        const username = loginResult.user.name;
         localStorage.setItem("authToken", loginResult.token);
+        localStorage.setItem("log-user", username);
         window.location.href = "/";
     } catch (error) {
         console.error("FAILED TO FETCH LOGIN ", error);

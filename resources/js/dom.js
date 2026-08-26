@@ -49,3 +49,7 @@ export function renderDoneLoading() {
 }
 
 export function renderRegisterErrors(errors) {}
+
+export function renderLogUser(username) {
+    document.querySelector(".log-user").textContent = username;
+}
