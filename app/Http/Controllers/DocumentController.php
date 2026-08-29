@@ -33,7 +33,7 @@ class DocumentController extends Controller
         $filePath = $file->store('documents', 'local');
 
         $document = Document::create([
-            'tracking_number' => 'DOC-' . strtoupper(Str::random(8)),
+            'tracking_number' => 'DILG-CDO-' . strtoupper(Str::random(8)),
             'title'           => $request->validated('title'),
             'original_name'   => $file->getClientOriginalName(),
             'file_path'       => $filePath,

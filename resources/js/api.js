@@ -1,4 +1,4 @@
-import { renderLoading, renderDoneLoading } from "./dom.js";
+import { renderLoading, renderDoneLoading, renderUsers } from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
 export async function getDocumentsAPI(token) {
@@ -11,14 +11,14 @@ export async function getDocumentsAPI(token) {
             },
         });
 
-        const documentsResult = await response.json();
+        const documentsusers = await response.json();
 
         if (!response.ok) {
             throw new Error(`HTTP ERROR STATUS: ${response.status}`);
         }
 
-        // console.log(documentsResult);
-        return documentsResult.data;
+        // console.log(documentsusers);
+        return documentsusers.data;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENTS ", error);
     }
@@ -63,12 +63,12 @@ export async function registerAPI(formData) {
             body: formData,
         });
 
-        const registerResult = await response.json();
+        const registerusers = await response.json();
 
         if (!response.ok) {
             if (response.status === 422) {
                 const registerErros = Object.values(
-                    registerResult.errors,
+                    registerusers.errors,
                 ).flat();
                 renderAuthErrors(registerErros);
             }
@@ -90,16 +90,16 @@ export async function loginAPI(formData) {
             body: formData,
         });
 
-        const loginResult = await response.json();
+        const loginusers = await response.json();
 
         if (!response.ok || response.status === 401) {
-            const errors = [loginResult.message];
+            const errors = [loginusers.message];
             renderAuthErrors(errors);
             return;
         }
 
-        const username = loginResult.user.name;
-        localStorage.setItem("authToken", loginResult.token);
+        const username = loginusers.user.name;
+        localStorage.setItem("authToken", loginusers.token);
         localStorage.setItem("log-user", username);
         window.location.href = "/";
     } catch (error) {
@@ -133,5 +133,56 @@ export async function logoutAPI(token) {
         return;
     } catch (error) {
         console.error("FAILED TO FETCH LOGOUT ", error);
+    }
+}
+
+export async function getUsersAPI(token) {
+    try {
+        const response = await fetch("/api/asign-role", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const users = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP error status: ${response.status}`);
+        }
+
+        console.log(users.data);
+        renderUsers(users.data);
+    } catch (error) {
+        console.error("FAILD TO FETCH USERS", error);
+    }
+}
+
+export async function asignRoleAPI(id, roleData, token) {
+    try {
+        const response = await fetch(`/api/asign-role/${id}`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: roleData,
+        });
+
+        const result = await response.json();
+
+        if (response.status === 401) {
+            window.location.href = "/user/login";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(`HTTP status error ${response.status}`);
+        }
+
+        console.log(result.data);
+    } catch (error) {
+        console.error("FAILED TO USER ROLE ", error);
     }
 }

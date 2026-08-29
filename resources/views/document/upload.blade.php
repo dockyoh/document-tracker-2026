@@ -18,10 +18,11 @@
 </head>
 <body>
    <header>
-        <h1>Upload</h1>
-        <nav>
+        <h1>Upload Document</h1>
+        <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
+                <li><a href="/user/view">Users</a></li>
             </ul>
         </nav>
          <div class="user-container">

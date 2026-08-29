@@ -19,9 +19,10 @@
 <body>
     <header>
         <h1>Document Tracker</h1>
-        <nav>
+        <nav class="navbar">
             <ul>
                 <li><a href="document/upload">Upload</a></li>
+                <li><a href="user/view">Users</a></li>
             </ul>
         </nav>
         <div class="user-container">

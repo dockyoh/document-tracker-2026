@@ -10,9 +10,9 @@
 </head>
 <body>
     <header>
-        <h1>Document Tracker - Register</h1>
-        <nav>
-            <ul>
+        <h1>Register</h1>
+        <nav class="navbar">
+            <ul class="login-container">
                 <li><a href="/user/login">Login</a></li>
             </ul>
         </nav>

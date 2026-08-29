@@ -3,6 +3,7 @@ const fragment = document.createDocumentFragment();
 const previewTemplate = document.querySelector(".file-preview-template");
 const errorTemplate = document.querySelector(".upload-error-template");
 const documentTemplate = document.querySelector(".document-item-template");
+const userTemplate = document.querySelector(".user-item-template");
 
 export function renderUploadErrors(file, errorType) {
     templateContainer.textContent = "";
@@ -67,6 +68,19 @@ export function renderDocuments(documents) {
         clone.querySelector(".created-at").textContent = document.created_at;
         clone.querySelector(".updated-at").textContent = document.updated_human;
         clone.querySelector(".focal").textContent = document.focal;
+
+        fragment.appendChild(clone);
+    });
+    templateContainer.appendChild(fragment);
+}
+
+export function renderUsers(users) {
+    users.forEach((user) => {
+        const clone = userTemplate.content.cloneNode(true);
+
+        clone.querySelector(".username").textContent = user.name;
+        clone.querySelector(".select-role").value = user.role;
+        clone.querySelector(".user-item").dataset.userId = user.id;
 
         fragment.appendChild(clone);
     });

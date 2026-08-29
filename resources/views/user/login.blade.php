@@ -10,9 +10,9 @@
 </head>
 <body>
     <header>
-        <h1>Document Tracker - Login</h1>
-        <nav>
-            <ul>
+        <h1>Login</h1>
+        <nav class="navbar">
+            <ul class='register-container'>
                 <li><a href="/user/register">Register</a></li>
             </ul>
         </nav>
@@ -24,9 +24,6 @@
 
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required>
-
-            <label for="password_confirmation">Confirm Password:</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" required>
 
             <button type="submit" class="login-btn">Login</button>
         </form>
