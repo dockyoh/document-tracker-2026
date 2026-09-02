@@ -8,5 +8,7 @@ Route::get('/', function () {
 
 Route::view('/user/login', 'user.login');
 Route::view('/user/register', 'user.register');
-Route::view('/document/upload', 'document.upload');
 Route::view('/user/view', 'user.view');
+
+Route::view('/document/upload', 'document.upload');
+Route::view('/public/index', 'public.index');

@@ -1,4 +1,9 @@
-import { renderLoading, renderDoneLoading, renderUsers } from "./dom.js";
+import {
+    renderLoading,
+    renderDoneLoading,
+    renderUsers,
+    renderDocuments,
+} from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
 export async function getDocumentsAPI(token) {
@@ -13,12 +18,18 @@ export async function getDocumentsAPI(token) {
 
         const documentsusers = await response.json();
 
+        if (response.status === 401) {
+            window.location.href = "/user/login";
+            return;
+        }
+
         if (!response.ok) {
-            throw new Error(`HTTP ERROR STATUS: ${response.status}`);
+            throw new Error(`HTTP status error ${response.status}`);
         }
 
         // console.log(documentsusers);
-        return documentsusers.data;
+        renderDocuments(documentsusers.data);
+        return;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENTS ", error);
     }
@@ -38,12 +49,13 @@ export async function uploadAPI(formData, token) {
             body: formData,
         });
 
+        if (response.status === 401) {
+            window.location.href = "/user/login";
+            return;
+        }
+
         if (!response.ok) {
-            if (response.status === 401) {
-                window.location.href = "/user/login";
-                return;
-            }
-            // throw new Error(`HTTP error status: ${response.status}`);
+            throw new Error(`HTTP status error ${response.status}`);
         }
 
         renderDoneLoading();
@@ -90,17 +102,21 @@ export async function loginAPI(formData) {
             body: formData,
         });
 
-        const loginusers = await response.json();
+        const loginuser = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP ERROR STATUS ${response.status}`);
+        }
 
         if (!response.ok || response.status === 401) {
-            const errors = [loginusers.message];
+            const errors = [loginuser.message];
             renderAuthErrors(errors);
             return;
         }
 
-        const username = loginusers.user.name;
-        localStorage.setItem("authToken", loginusers.token);
-        localStorage.setItem("log-user", username);
+        localStorage.setItem("authToken", loginuser.token);
+        localStorage.setItem("user", JSON.stringify(loginuser.user));
+
         window.location.href = "/";
     } catch (error) {
         console.error("FAILED TO FETCH LOGIN ", error);
@@ -125,7 +141,7 @@ export async function logoutAPI(token) {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error status: ${response.status}`);
+            throw new Error(`HTTP status error ${response.status}`);
         }
 
         localStorage.clear();
@@ -148,8 +164,13 @@ export async function getUsersAPI(token) {
 
         const users = await response.json();
 
+        if (response.status === 401) {
+            window.location.href = "/user/login";
+            return;
+        }
+
         if (!response.ok) {
-            throw new Error(`HTTP error status: ${response.status}`);
+            throw new Error(`HTTP status error ${response.status}`);
         }
 
         console.log(users.data);

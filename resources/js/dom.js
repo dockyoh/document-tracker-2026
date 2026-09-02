@@ -68,6 +68,7 @@ export function renderDocuments(documents) {
         clone.querySelector(".created-at").textContent = document.created_at;
         clone.querySelector(".updated-at").textContent = document.updated_human;
         clone.querySelector(".focal").textContent = document.focal;
+        clone.querySelector(".role").textContent = document.role;
 
         fragment.appendChild(clone);
     });

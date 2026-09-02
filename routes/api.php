@@ -13,6 +13,9 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('documents', DocumentController::class);
+});
+
+Route::middleware(['auth:sanctum', 'can:manage-roles'])->group(function () {
     Route::apiResource('asign-role', UserController::class);
 });
 

@@ -1,4 +1,6 @@
 import { logoutAPI, uploadAPI } from "./api.js";
+import { renderPrivatePage } from "./auth-dom.js";
+import { getUsername, isAdmin } from "./auth.js";
 import {
     renderUploadErrors,
     renderSelectedFile,
@@ -10,9 +12,12 @@ const fileInput = document.querySelector("#file-input");
 const uploadBtn = document.querySelector(".upload-btn");
 const templateContainer = document.querySelector(".template-container");
 const token = localStorage.getItem("authToken");
-const username = localStorage.getItem("log-user");
 
-renderLogUser(username);
+if (isAdmin()) {
+    renderPrivatePage();
+}
+
+renderLogUser(getUsername());
 
 const CONFIG = {
     MAX_SIZE_MB: 10,

@@ -22,7 +22,7 @@
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/user/view">Users</a></li>
+                <li class="manage-role-link"><a href="/user/view">Manage Role</a></li>
             </ul>
         </nav>
          <div class="user-container">

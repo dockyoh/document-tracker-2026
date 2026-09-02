@@ -1,16 +1,19 @@
 import { getDocumentsAPI, logoutAPI } from "./api.js";
-import { renderLogUser, renderDocuments } from "./dom.js";
+import { renderPrivatePage } from "./auth-dom.js";
+import { getUsername, isAdmin } from "./auth.js";
+import { renderLogUser } from "./dom.js";
 
 const token = localStorage.getItem("authToken");
-const username = localStorage.getItem("log-user");
 
-renderLogUser(username);
+if (isAdmin()) {
+    renderPrivatePage();
+}
+
+renderLogUser(getUsername());
 getDocuments();
 
 async function getDocuments() {
-    const documents = await getDocumentsAPI(token);
-    console.log(documents);
-    renderDocuments(documents);
+    await getDocumentsAPI(token);
 }
 
 document

@@ -11,6 +11,7 @@ signupForm?.addEventListener("submit", async (e) => {
     await registerAPI(formData);
 });
 
+// LOGIN
 loginForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -18,3 +19,18 @@ loginForm?.addEventListener("submit", async (e) => {
 
     await loginAPI(formData);
 });
+
+export function getCurrentUser() {
+    const user = JSON.parse(localStorage.getItem("user")) || null;
+    return user;
+}
+
+export function isAdmin() {
+    const user = getCurrentUser();
+    return user?.role === "department head";
+}
+
+export function getUsername() {
+    const user = getCurrentUser();
+    return user.name;
+}

@@ -15,3 +15,7 @@ export function renderAuthErrors(errors) {
 
     templateContainer.appendChild(fragment);
 }
+
+export function renderPrivatePage() {
+    document.querySelector(".manage-role-link").style.display = "inline-block";
+}

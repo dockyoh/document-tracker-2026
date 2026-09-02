@@ -76,6 +76,10 @@ header .navbar a:hover {
     color: black;
 }
 
+header .manage-role-link {
+    display: none;
+}
+
 .upload-form {
     border: 1px dashed rgba(61, 61, 61, 0.5);
     background-color: rgba(211, 211, 211, 0.1);
@@ -217,7 +221,7 @@ header .navbar a:hover {
 .column-name-container,
 .document-item {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 240px 150px;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 150px 240px 150px;
     /* grid-template-columns: repeat(6, 1fr); */
     /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
     /* gap: var(--spacing-m); */

@@ -39,7 +39,7 @@
                     <span class="username" role="cell"></span>
                     <form action="" method="post" class="user-role-form">
                         <select name="role" class="select-role" role="cell">
-                            <option value="department-head">Department Head</option>
+                            <option value="department head">Department Head</option>
                             <option value="reviewer">Reviewer</option>
                             <option value="staff">Staff</option>
                         </select>
