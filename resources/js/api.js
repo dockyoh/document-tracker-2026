@@ -231,3 +231,28 @@ export async function getPendingDocsAPI(token) {
         console.error("FAILED TO FETCH PENDING DOCS ", error);
     }
 }
+
+export async function documentPreviewAPI(token, id) {
+    try {
+        const response = await fetch(`/api/documents/${id}/preview`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const result = await response.blob();
+
+        if (!response.ok) {
+            throw new Error(`HTTP STATUS ERROR ${response.status}`);
+        }
+
+        console.log(result);
+
+        const previewURL = URL.createObjectURL(result);
+        window.open(previewURL, "_blank");
+    } catch (error) {
+        console.error("FAILED TO FETCH DOCUMENT PREVIEW ", error);
+    }
+}

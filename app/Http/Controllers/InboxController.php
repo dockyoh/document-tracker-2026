@@ -14,7 +14,8 @@ class InboxController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $pendingDocs = Document::where('focal_person_id', $request->user()->id)
+        $pendingDocs = Document::with(['uploader', 'focalPerson'])
+            ->where('focal_person_id', $request->user()->id)
             ->where('status', 'Pending')
             ->latest()
             ->get();

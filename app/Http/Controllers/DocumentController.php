@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 // use Dom\Document;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
 {
@@ -71,5 +73,21 @@ class DocumentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function preview(Document $document): StreamedResponse
+    {
+        if (!Storage::disk('local')->exists($document->file_path)) {
+            abort(404, 'FILE NOT FOUND');
+        }
+
+        return Storage::response(
+            $document->file_path,
+            $document->original_name,
+            [
+                'Content-Type' => $document->mime_type,
+                'Content-Disposition' => 'inline; filename = " ' . $document->original_name . ' "'
+            ]
+        );
     }
 }

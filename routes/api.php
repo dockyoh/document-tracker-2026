@@ -14,6 +14,7 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('documents', DocumentController::class);
+    Route::get('/documents/{document}/preview', [DocumentController::class, 'preview']);
     Route::apiResource('inbox', InboxController::class);
 });
 

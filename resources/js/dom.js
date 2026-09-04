@@ -92,6 +92,7 @@ export function renderInboxTable(datas) {
     datas.forEach((data) => {
         const clone = documentTemplate.content.cloneNode(true);
 
+        clone.querySelector(".document-item").dataset.documentId = data.id;
         clone.querySelector(".tracking-number").textContent =
             data.tracking_number;
         clone.querySelector(".file-name").textContent = data.original_name;
