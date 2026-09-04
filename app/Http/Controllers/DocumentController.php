@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 // use Dom\Document;
@@ -18,7 +19,7 @@ class DocumentController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $documents = Document::with('focalPerson')->get();
+        $documents = Document::with('uploader')->get();
 
         return DocumentResource::collection($documents);
     }
@@ -32,6 +33,8 @@ class DocumentController extends Controller
 
         $filePath = $file->store('documents', 'local');
 
+        $focalPerson = User::where('role', 'reviewer')->first();
+
         $document = Document::create([
             'tracking_number' => 'DILG-CDO-' . strtoupper(Str::random(8)),
             'title'           => $request->validated('title'),
@@ -40,7 +43,8 @@ class DocumentController extends Controller
             'file_size'       => $file->getSize(),
             'mime_type'       => $file->getMimeType(),
             'status'          => 'Pending',
-            'focal_person_id' => $request->user()->id
+            'uploader_id' => $request->user()->id,
+            'focal_person_id' => $focalPerson?->id
         ]);
         return new DocumentResource($document);
     }

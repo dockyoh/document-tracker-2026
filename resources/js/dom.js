@@ -68,7 +68,7 @@ export function renderDocuments(documents) {
         clone.querySelector(".created-at").textContent = document.created_at;
         clone.querySelector(".updated-at").textContent = document.updated_human;
         clone.querySelector(".focal").textContent = document.focal;
-        clone.querySelector(".role").textContent = document.role;
+        clone.querySelector(".author").textContent = document.uploader;
 
         fragment.appendChild(clone);
     });
@@ -85,5 +85,23 @@ export function renderUsers(users) {
 
         fragment.appendChild(clone);
     });
+    templateContainer.appendChild(fragment);
+}
+
+export function renderInboxTable(datas) {
+    datas.forEach((data) => {
+        const clone = documentTemplate.content.cloneNode(true);
+
+        clone.querySelector(".tracking-number").textContent =
+            data.tracking_number;
+        clone.querySelector(".file-name").textContent = data.original_name;
+        clone.querySelector(".status").textContent = data.status;
+        clone.querySelector(".author").textContent = data.uploader;
+        clone.querySelector(".updated-at").textContent = data.updated_human;
+        clone.querySelector(".created-at").textContent = data.created_at;
+
+        fragment.appendChild(clone);
+    });
+
     templateContainer.appendChild(fragment);
 }

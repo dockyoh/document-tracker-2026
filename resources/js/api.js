@@ -3,6 +3,7 @@ import {
     renderDoneLoading,
     renderUsers,
     renderDocuments,
+    renderInboxTable,
 } from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
@@ -27,8 +28,8 @@ export async function getDocumentsAPI(token) {
             throw new Error(`HTTP status error ${response.status}`);
         }
 
-        // console.log(documentsusers);
         renderDocuments(documentsusers.data);
+        // renderInboxTable(documentsusers.data);
         return;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENTS ", error);
@@ -104,11 +105,11 @@ export async function loginAPI(formData) {
 
         const loginuser = await response.json();
 
-        if (!response.ok) {
-            throw new Error(`HTTP ERROR STATUS ${response.status}`);
-        }
+        // if (!response.ok) {
+        //     throw new Error(`HTTP ERROR STATUS ${response.status}`);
+        // }
 
-        if (!response.ok || response.status === 401) {
+        if (response.status === 401) {
             const errors = [loginuser.message];
             renderAuthErrors(errors);
             return;
@@ -205,5 +206,28 @@ export async function asignRoleAPI(id, roleData, token) {
         console.log(result.data);
     } catch (error) {
         console.error("FAILED TO USER ROLE ", error);
+    }
+}
+
+export async function getPendingDocsAPI(token) {
+    try {
+        const response = await fetch("/api/inbox", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP STATUS ERROR ${response.status}`);
+        }
+
+        console.log(result.data);
+        renderInboxTable(result.data);
+    } catch (error) {
+        console.error("FAILED TO FETCH PENDING DOCS ", error);
     }
 }

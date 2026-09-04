@@ -14,11 +14,17 @@ class Document extends Model
         'file_size',
         'mime_type',
         'status',
-        'focal_person_id'
+        'focal_person_id',
+        'uploader_id'
     ];
 
     public function focalPerson()
     {
         return $this->belongsTo(User::class, 'focal_person_id');
+    }
+
+    public function uploader()
+    {
+        return $this->belongsTo(User::class, 'uploader_id');
     }
 }

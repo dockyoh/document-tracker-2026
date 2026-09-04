@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('file_size');
             $table->string('status')->default('Pending');
             $table->timestamps();
+            $table->foreignId('uploader_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('focal_person_id')->nullable()->constrained('users')->nullOnDelete();
         });
     }

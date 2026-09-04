@@ -1,0 +1,124 @@
+*,
+::before,
+::after {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    object-fit: cover;
+}
+
+:root {
+    --spacing-s: 5px;
+    --spacing-m: 10px;
+    --spacing-l: 15px;
+    --spacing-xl: 20px;
+    --form-width: 50%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* HEADER SECTION */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.5);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    color: white;
+}
+
+header .user-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-m);
+}
+
+header .navbar {
+    width: 50%;
+}
+
+header .navbar ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--spacing-l);
+    list-style-type: none;
+}
+
+.navbar .login-container {
+    justify-content: flex-end;
+}
+
+.navbar .register-container {
+    justify-content: flex-end;
+}
+
+header .navbar a {
+    text-decoration: none;
+    font-weight: bold;
+    padding: var(--spacing-s);
+    border-radius: var(--spacing-m);
+    color: white;
+    transition: all 0.15s ease-in-out;
+}
+
+header .navbar a:hover {
+    background-color: white;
+    color: black;
+}
+
+header .manage-role-link {
+    display: none;
+}
+
+/* TABLE SECTION */
+.document-table-container {
+    max-width: 98%;
+    margin: auto;
+}
+
+.column-name-container {
+    margin-bottom: var(--spacing-m);
+}
+
+.column-name-container,
+.document-item {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 240px 150px;
+    border-radius: var(--spacing-m);
+    padding: var(--spacing-s);
+}
+
+.column-name-container {
+    background-color: rgba(255, 255, 0, 0.5);
+    border: 1px solid lightgray;
+}
+
+.document-item {
+    background-color: rgba(173, 216, 230, 0.5);
+    margin-bottom: var(--spacing-s);
+    transition: all 0.15s ease-in-out;
+}
+
+.document-item:hover {
+    background-color: rgb(173, 216, 230);
+    cursor: pointer;
+}
+
+.column-name-container .column-name {
+    font-weight: bold;
+}
+
+.file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

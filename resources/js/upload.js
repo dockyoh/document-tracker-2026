@@ -13,11 +13,7 @@ const uploadBtn = document.querySelector(".upload-btn");
 const templateContainer = document.querySelector(".template-container");
 const token = localStorage.getItem("authToken");
 
-if (isAdmin()) {
-    renderPrivatePage();
-}
-
-renderLogUser(getUsername());
+let fileSelected = null;
 
 const CONFIG = {
     MAX_SIZE_MB: 10,
@@ -30,7 +26,11 @@ const CONFIG = {
     UPLOAD_ENDPOINT: "/api/documents",
 };
 
-let fileSelected = null;
+if (isAdmin()) {
+    renderPrivatePage();
+}
+
+renderLogUser(getUsername());
 
 fileInput.addEventListener("change", (e) => {
     if (e.target.files.length > 0) {

@@ -15,10 +15,11 @@
 </head>
 <body>
     <header>
-        <h1>Asign Role</h1>
+        <h1>Manage Role</h1>
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
+                <li><a href="/user/inbox">Inbox</a></li>
                 <li><a href="/document/upload">Upload</a></li>
             </ul>
         </nav>
