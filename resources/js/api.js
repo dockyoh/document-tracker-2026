@@ -237,22 +237,51 @@ export async function documentPreviewAPI(token, id) {
         const response = await fetch(`/api/documents/${id}/preview`, {
             method: "GET",
             headers: {
-                Accept: "application/json",
                 Authorization: `Bearer ${token}`,
             },
         });
 
-        const result = await response.blob();
-
         if (!response.ok) {
-            throw new Error(`HTTP STATUS ERROR ${response.status}`);
+            const message = await response.text();
+            throw new Error(`PREVIEW FAILED ${response.status} : ${message}`);
         }
 
-        console.log(result);
+        const result = await response.blob();
 
         const previewURL = URL.createObjectURL(result);
+
         window.open(previewURL, "_blank");
+
+        setTimeout(() => {
+            URL.revokeObjectURL(previewURL);
+        }, 60000);
+
+        return true;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENT PREVIEW ", error);
+    }
+}
+
+export async function updateDocStatsAPI(token, id, status) {
+    try {
+        const response = await fetch(`/api/documents/${id}`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(status),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP STATUS ERROR: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log(result.data);
+    } catch (error) {
+        console.error("FAILED TO UPDATE DOCUMENT STATUS :", error);
     }
 }

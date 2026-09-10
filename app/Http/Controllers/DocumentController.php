@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Requests\UpdateDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use App\Models\User;
@@ -62,9 +63,13 @@ class DocumentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateDocumentRequest $request, string $id): DocumentResource
     {
-        //
+        $document = Document::findOrFail($id);
+
+        $document->update($request->validated());
+
+        return new DocumentResource($document);
     }
 
     /**
@@ -77,6 +82,18 @@ class DocumentController extends Controller
 
     public function preview(Document $document): StreamedResponse
     {
+
+        // dd([
+        //     'document' => $document->toArray(),
+        //     'attributes' => $document->getAttributes(),
+        //     'file_path_property' => $document->file_path,
+        //     'id' => $document->id,
+        // ]);
+
+        if (!$document->file_path) {
+            abort(404, 'DOCUMENT HAS NO FILE PATH');
+        }
+
         if (!Storage::disk('local')->exists($document->file_path)) {
             abort(404, 'FILE NOT FOUND');
         }

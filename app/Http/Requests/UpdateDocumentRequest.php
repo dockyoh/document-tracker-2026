@@ -23,7 +23,7 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "status" => "sometimes|string|max:255"
         ];
     }
 }
