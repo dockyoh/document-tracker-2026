@@ -217,7 +217,7 @@ header .manage-role-link {
 .column-name-container,
 .document-item {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 150px 240px 150px;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 150px 150px 240px;
     border-radius: var(--spacing-m);
     padding: var(--spacing-s);
 }

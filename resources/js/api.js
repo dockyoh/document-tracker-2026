@@ -103,8 +103,6 @@ export async function loginAPI(formData) {
             body: formData,
         });
 
-        const loginuser = await response.json();
-
         // if (!response.ok) {
         //     throw new Error(`HTTP ERROR STATUS ${response.status}`);
         // }
@@ -114,6 +112,8 @@ export async function loginAPI(formData) {
             renderAuthErrors(errors);
             return;
         }
+
+        const loginuser = await response.json();
 
         localStorage.setItem("authToken", loginuser.token);
         localStorage.setItem("user", JSON.stringify(loginuser.user));
@@ -163,8 +163,6 @@ export async function getUsersAPI(token) {
             },
         });
 
-        const users = await response.json();
-
         if (response.status === 401) {
             window.location.href = "/user/login";
             return;
@@ -173,6 +171,8 @@ export async function getUsersAPI(token) {
         if (!response.ok) {
             throw new Error(`HTTP status error ${response.status}`);
         }
+
+        const users = await response.json();
 
         console.log(users.data);
         renderUsers(users.data);
@@ -209,7 +209,7 @@ export async function asignRoleAPI(id, roleData, token) {
     }
 }
 
-export async function getPendingDocsAPI(token) {
+export async function getInboxDocsAPI(token) {
     try {
         const response = await fetch("/api/inbox", {
             method: "GET",

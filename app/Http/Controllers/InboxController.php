@@ -14,13 +14,13 @@ class InboxController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $pendingDocs = Document::with(['uploader', 'focalPerson'])
+        $documents = Document::with(['uploader', 'focalPerson'])
             ->where('focal_person_id', $request->user()->id)
-            ->where('status', 'Pending')
+            ->whereIn('status', ['Pending', 'Review'])
             ->latest()
             ->get();
 
-        return DocumentResource::collection($pendingDocs);
+        return DocumentResource::collection($documents);
     }
 
     /**

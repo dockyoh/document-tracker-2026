@@ -67,9 +67,19 @@ class DocumentController extends Controller
     {
         $document = Document::findOrFail($id);
 
-        $document->update($request->validated());
+        $validated = $request->validated();
 
-        return new DocumentResource($document);
+        // $document->update($request->validated());
+
+        if (($validated["status"] ?? null) === "Pending-dh") {
+            $departmentHead = User::where("role", "department head")->firstOrFail();
+
+            $validated["focal_person_id"] = $departmentHead->id;
+        }
+
+        $document->update($validated);
+
+        return new DocumentResource($document->fresh());
     }
 
     /**

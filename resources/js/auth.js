@@ -27,7 +27,7 @@ export function getCurrentUser() {
 
 export function isAdmin() {
     const user = getCurrentUser();
-    return user?.role === "department head";
+    return user?.role === "admin";
 }
 
 export function getUsername() {

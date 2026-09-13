@@ -39,7 +39,7 @@
                 <span class="column-name" role="columnheader">Status</span>
                 <span class="column-name" role="columnheader">Focal</span>
                 <span class="column-name" role="columnheader">Author</span>
-                <span class="column-name" role="columnheader">Updated at</span>
+                <span class="column-name" role="columnheader">Updated at</span>  
                 <span class="column-name" role="columnheader">Created at</span>
             </li>
             <div class="template-container"></div>
@@ -50,8 +50,8 @@
                     <span class="status" role="cell"></span>
                     <span class="focal" role="cell"></span>
                     <span class="author" role="cell"></span>
-                    <span class="created-at" role="cell"></span>
                     <span class="updated-at" role="cell"></span>
+                    <span class="created-at" role="cell"></span>
                 </li>
             </template>
        </ul>

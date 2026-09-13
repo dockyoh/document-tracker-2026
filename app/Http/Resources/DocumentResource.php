@@ -24,8 +24,9 @@ class DocumentResource extends JsonResource
             'status' => $this->status,
             'focal' => $this->focalPerson?->name,
             'uploader' => $this->uploader?->name,
-            'role' => $this->uploader?->role,
-            'created_at' => $this->created_at?->toIso8601String(),
+            // 'role' => $this->uploader?->role,
+            // 'created_at' => $this->created_at?->toIso8601String(),
+            'created_at' => $this->created_at?->diffForHumans(),
             'updated_human' => $this->updated_at?->diffForHumans()
         ];
     }

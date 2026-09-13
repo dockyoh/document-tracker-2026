@@ -48,11 +48,19 @@
                     <span class="file-name" role="cell"></span>
                     <span class="status" role="cell"></span>
                     <span class="author" role="cell"></span>
-                    <span class="created-at" role="cell"></span>
                     <span class="updated-at" role="cell"></span>
+                    <span class="created-at" role="cell"></span>
                 </li>
             </template>
        </ul>
+       <dialog class="inbox-modal">
+        <button class="close-btn">Close</button>
+            <h2 class="doc-title">Document title</h2>
+            <div class="button-container">
+                <button class="approve-btn inbox-modal-btn">Approve</button>
+                <button class="reject-btn inbox-modal-btn">Reject</button>
+            </div>
+       </dialog>
     </main>
 </body>
 </html>

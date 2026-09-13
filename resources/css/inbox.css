@@ -92,7 +92,7 @@ header .manage-role-link {
 .column-name-container,
 .document-item {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 240px 150px;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 150px 240px;
     border-radius: var(--spacing-m);
     padding: var(--spacing-s);
 }
@@ -121,4 +121,62 @@ header .manage-role-link {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.inbox-modal {
+    border: none;
+    height: 50%;
+    width: 50%;
+    margin: auto;
+    background-color: white;
+    border-radius: var(--spacing-m);
+    padding: var(--spacing-m);
+}
+
+.inbox-modal[open] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+.inbox-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.inbox-modal .approve-btn {
+    border-radius: var(--spacing-m);
+    padding: var(--spacing-m);
+    background-color: lightgreen;
+    color: black;
+    border: none;
+}
+
+.inbox-modal .reject-btn {
+    border-radius: var(--spacing-m);
+    padding: var(--spacing-m);
+    background-color: red;
+    color: white;
+    border: none;
+}
+
+.inbox-modal-btn {
+    font-size: 1.5rem;
+}
+
+.inbox-modal .button-container {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.inbox-modal .close-btn {
+    position: absolute;
+    top: var(--spacing-s);
+    right: var(--spacing-s);
+    padding: var(--spacing-s);
+    border-radius: 50%;
+    border: none;
 }

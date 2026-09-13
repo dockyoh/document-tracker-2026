@@ -43,6 +43,7 @@
                             <option value="department head">Department Head</option>
                             <option value="reviewer">Reviewer</option>
                             <option value="staff">Staff</option>
+                            <option value="admin">Admin</option>
                         </select>
                     </form>
                 </li>
