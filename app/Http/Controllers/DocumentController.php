@@ -71,7 +71,7 @@ class DocumentController extends Controller
 
         // $document->update($request->validated());
 
-        if (($validated["status"] ?? null) === "Pending-dh") {
+        if (($validated["status"] ?? null) === "Pending") {
             $departmentHead = User::where("role", "department head")->firstOrFail();
 
             $validated["focal_person_id"] = $departmentHead->id;

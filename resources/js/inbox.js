@@ -5,12 +5,15 @@ import {
     updateDocStatsAPI,
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
-import { getUsername, isAdmin } from "./auth.js";
+import { getCurrentUser, getUsername, isAdmin } from "./auth.js";
 import { renderLogUser } from "./dom.js";
 
 const templateContainerEl = document.querySelector(".template-container");
 const inboxModal = document.querySelector(".inbox-modal");
 const token = localStorage.getItem("authToken");
+const user = getCurrentUser();
+let docStats = null;
+console.log(user.role);
 
 let docId = null;
 
@@ -31,13 +34,14 @@ document
         await logoutAPI(token);
     });
 
+// PREVIEW THE DOCUMENT, CHANGE STATUS AND SHOW MODAL WITH APPROVE AND REJECT OPTIONS
 templateContainerEl.addEventListener("click", async (e) => {
     if (e.target.closest(".document-item")) {
         docId = e.target.closest(".document-item").dataset.documentId;
 
         const isReviewed = await documentPreviewAPI(token, docId);
 
-        if (isReviewed) {
+        if (isReviewed && user.role !== "staff") {
             const docStats = {
                 status: "Review",
             };
@@ -56,11 +60,27 @@ inboxModal.addEventListener("click", async (e) => {
     if (e.target.closest(".approve-btn")) {
         console.log(`Document approve activated : ${docId}`);
 
-        const docStats = {
-            status: "Pending-dh",
-        };
+        if (user.role === "department head") {
+            docStats = {
+                status: "Approved",
+            };
+        }
 
-        await updateDocStatsAPI(token, docId, docStats);
-        inboxModal.close();
+        if (user.role === "reviewer") {
+            docStats = {
+                status: "Pending",
+            };
+        }
     }
+
+    if (e.target.closest(".reject-btn")) {
+        console.log(`Document rejected activated : ${docId}`);
+
+        docStats = {
+            status: "Rejected",
+        };
+    }
+
+    await updateDocStatsAPI(token, docId, docStats);
+    inboxModal.close();
 });

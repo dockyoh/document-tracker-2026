@@ -23,7 +23,7 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "status" => "sometimes|string|in:Pending,Pending-dh,Review,Approved,Rejected|max:255"
+            "status" => "sometimes|string|in:Pending,Pending-dh,Review,Review-dh,Approved,Rejected|max:255"
         ];
     }
 }

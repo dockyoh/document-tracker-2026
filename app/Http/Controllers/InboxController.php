@@ -6,6 +6,7 @@ use App\Http\Resources\DocumentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Models\Document;
+use App\Models\User;
 
 class InboxController extends Controller
 {
@@ -14,11 +15,21 @@ class InboxController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $documents = Document::with(['uploader', 'focalPerson'])
-            ->where('focal_person_id', $request->user()->id)
-            ->whereIn('status', ['Pending', 'Review'])
-            ->latest()
-            ->get();
+        $user = $request->user();
+
+        if ($user->role === "staff") {
+            $documents = Document::with(['uploader', 'focalPerson'])
+                ->where('uploader_id', $user->id)
+                ->latest()
+                ->get();
+        } else {
+            // THIS IS FOR THE DEPARTMENT HEAD AND REVIEWERS INBOX 
+            $documents = Document::with(['uploader', 'focalPerson'])
+                ->where('focal_person_id', $user->id)
+                ->whereIn('status', ["Pending", "Review"])
+                ->latest()
+                ->get();
+        }
 
         return DocumentResource::collection($documents);
     }
