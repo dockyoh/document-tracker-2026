@@ -75,6 +75,8 @@ class DocumentController extends Controller
             $departmentHead = User::where("role", "department head")->firstOrFail();
 
             $validated["focal_person_id"] = $departmentHead->id;
+        } elseif (($validated["status"] ?? null) === "Rejected") {
+            $validated["focal_person_id"] = $document->uploader_id;
         }
 
         $document->update($validated);
