@@ -18,8 +18,9 @@ class InboxController extends Controller
         $user = $request->user();
 
         if ($user->role === "staff") {
-            $documents = Document::with(['uploader', 'focalPerson'])
+            $documents = Document::with('uploader')
                 ->where('uploader_id', $user->id)
+                ->where("status", "!=", "Approved")
                 ->latest()
                 ->get();
         } else {

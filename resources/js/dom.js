@@ -97,6 +97,7 @@ export function renderInboxTable(datas) {
             data.tracking_number;
         clone.querySelector(".file-name").textContent = data.original_name;
         clone.querySelector(".status").textContent = data.status;
+        clone.querySelector(".focal").textContent = data.focal;
         clone.querySelector(".author").textContent = data.uploader;
         clone.querySelector(".updated-at").textContent = data.updated_human;
         clone.querySelector(".created-at").textContent = data.created_at;

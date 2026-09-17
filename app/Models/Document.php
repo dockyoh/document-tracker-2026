@@ -27,4 +27,9 @@ class Document extends Model
     {
         return $this->belongsTo(User::class, 'uploader_id');
     }
+
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 }

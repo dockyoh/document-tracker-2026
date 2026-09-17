@@ -6,6 +6,7 @@ use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
+use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Support\Str;
 
@@ -39,7 +40,7 @@ class DocumentController extends Controller
         $focalPerson = User::where('role', 'reviewer')->first();
 
         $document = Document::create([
-            'tracking_number' => 'DILG-CDO-' . strtoupper(Str::random(8)),
+            'tracking_number' => 'DOC-' . strtoupper(Str::random(8)),
             'title'           => $request->validated('title'),
             'original_name'   => $file->getClientOriginalName(),
             'file_path'       => $filePath,
@@ -75,8 +76,19 @@ class DocumentController extends Controller
             $departmentHead = User::where("role", "department head")->firstOrFail();
 
             $validated["focal_person_id"] = $departmentHead->id;
-        } elseif (($validated["status"] ?? null) === "Rejected") {
+        } else if (($validated["status"] ?? null) === "Approved") {
+            $validated["focal_person_id"] = null;
+        } else if (in_array($validated["status"] ?? null, ["Rejected", "Revise"])) {
+            Feedback::create([
+                "message" => $validated["feedback"],
+                "action" => $validated["status"],
+                "document_id" => $document->id,
+                "user_id" => $request->user()->id
+            ]);
+
             $validated["focal_person_id"] = $document->uploader_id;
+
+            unset($validated["feedback"]);
         }
 
         $document->update($validated);

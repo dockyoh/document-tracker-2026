@@ -37,6 +37,7 @@
                 <span class="column-name" role="columnheader">Tracking Number</span>
                 <span class="column-name" role="columnheader">File name</span>
                 <span class="column-name" role="columnheader">Status</span>
+                <span class="column-name" role="columnheader">Focal</span>
                 <span class="column-name" role="columnheader">Author</span>
                 <span class="column-name" role="columnheader">Updated at</span>
                 <span class="column-name" role="columnheader">Created at</span>
@@ -47,19 +48,41 @@
                     <span class="tracking-number" role="cell"></span>
                     <span class="file-name" role="cell"></span>
                     <span class="status" role="cell"></span>
+                    <span class="focal" role="cell"></span>
                     <span class="author" role="cell"></span>
                     <span class="updated-at" role="cell"></span>
                     <span class="created-at" role="cell"></span>
                 </li>
             </template>
        </ul>
+       {{-- INBOX MODAL --}}
        <dialog class="inbox-modal">
-        <button class="close-btn">Close</button>
+        <button type="button" class="close-btn">Close</button>
             <h2 class="doc-title">Document title</h2>
             <div class="button-container">
                 <button class="approve-btn inbox-modal-btn">Approve</button>
+                <button class="revision-btn inbox-modal-btn">Revise</button>
                 <button class="reject-btn inbox-modal-btn">Reject</button>
             </div>
+       </dialog>
+       {{-- REVISE MODAL --}}
+       <dialog class="inbox-modal_revise inbox-modal">
+        <h2>Request Revision</h2>
+        <h3>Document Title...</h3>
+        <form action="" method="post" class="revise-form">
+            <label for="feedback-message">Feedback:</label>
+            <textarea 
+                name="message" 
+                id="feedback-message" 
+                cols="50" 
+                rows="10" 
+                placeholder="Explain what the authors need to revise." 
+                required></textarea>
+            <div class="button-container">
+                <button type="submit" class="feedback-btn inbox-modal-btn">Send Feedback</button>
+                <button type="button" class="cancel-btn inbox-modal-btn">Cancel</button>
+            </div>
+        </form>
        </dialog>
     </main>
 </body>

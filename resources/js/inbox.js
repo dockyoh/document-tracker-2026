@@ -10,12 +10,15 @@ import { renderLogUser } from "./dom.js";
 
 const templateContainerEl = document.querySelector(".template-container");
 const inboxModal = document.querySelector(".inbox-modal");
+const reviseModal = document.querySelector(".inbox-modal_revise");
+const reviseForm = document.querySelector(".revise-form");
 const token = localStorage.getItem("authToken");
 const user = getCurrentUser();
 let docStats = null;
-console.log(user.role);
-
 let docId = null;
+
+console.log(user.role);
+// reviseModal.showModal();
 
 if (isAdmin()) {
     renderPrivatePage();
@@ -51,6 +54,7 @@ templateContainerEl.addEventListener("click", async (e) => {
     }
 });
 
+// UPDATE THE DOCUMENT STATUS AND FOCAL ID
 inboxModal.addEventListener("click", async (e) => {
     if (e.target.closest(".close-btn")) {
         inboxModal.close();
@@ -64,23 +68,64 @@ inboxModal.addEventListener("click", async (e) => {
             docStats = {
                 status: "Approved",
             };
-        }
-
-        if (user.role === "reviewer") {
+        } else if (user.role === "reviewer") {
             docStats = {
                 status: "Pending",
             };
         }
-    }
-
-    if (e.target.closest(".reject-btn")) {
+    } else if (e.target.closest(".revision-btn")) {
+        reviseModal.showModal();
+        inboxModal.close();
+    } else if (e.target.closest(".reject-btn")) {
         console.log(`Document rejected activated : ${docId}`);
 
         docStats = {
             status: "Rejected",
         };
     }
-
-    await updateDocStatsAPI(token, docId, docStats);
-    inboxModal.close();
+    updateDocStats();
 });
+
+reviseModal.addEventListener("click", async (e) => {
+    if (e.target.closest(".cancel-btn")) {
+        reviseModal.close();
+        return;
+    }
+
+    if (e.target.closest(".feedback-btn")) {
+        console.log("feedback button activated");
+
+        // docStats = {
+        //     status: "Revise",
+        // };
+        // updateDocStats();
+
+        getFormData();
+    }
+});
+
+async function updateDocStats() {
+    if (docStats !== null) {
+        await updateDocStatsAPI(token, docId, docStats);
+        inboxModal.close();
+        reviseModal.close();
+    }
+}
+
+function getFormData() {
+    reviseForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(reviseForm);
+
+        const feedbackMessage = formData.get("message");
+
+        docStats = {
+            status: "Revise",
+            feedback: feedbackMessage,
+        };
+
+        updateDocStats();
+        // console.log(docStats);
+    });
+}

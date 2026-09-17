@@ -92,7 +92,7 @@ header .manage-role-link {
 .column-name-container,
 .document-item {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 150px 240px;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 150px 150px 150px 150px;
     border-radius: var(--spacing-m);
     padding: var(--spacing-s);
 }
@@ -123,6 +123,7 @@ header .manage-role-link {
     text-overflow: ellipsis;
 }
 
+/* MODAL SECTION */
 .inbox-modal {
     border: none;
     height: 50%;
@@ -146,27 +147,30 @@ header .manage-role-link {
 }
 
 .inbox-modal .approve-btn {
-    border-radius: var(--spacing-m);
-    padding: var(--spacing-m);
     background-color: lightgreen;
     color: black;
-    border: none;
+}
+
+.inbox-modal .revision-btn {
+    background-color: yellow;
+    color: black;
 }
 
 .inbox-modal .reject-btn {
-    border-radius: var(--spacing-m);
-    padding: var(--spacing-m);
     background-color: red;
     color: white;
-    border: none;
 }
 
 .inbox-modal-btn {
     font-size: 1.5rem;
+    padding: var(--spacing-m);
+    border: 1px solid lightgray;
+    border-radius: var(--spacing-m);
+    width: 110px;
 }
 
 .inbox-modal .button-container {
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -177,6 +181,35 @@ header .manage-role-link {
     top: var(--spacing-s);
     right: var(--spacing-s);
     padding: var(--spacing-s);
-    border-radius: 50%;
+    /* border-radius: 50%; */
     border: none;
+    background-color: white;
+}
+
+/* REVISE MODAL */
+.inbox-modal_revise {
+    height: 60%;
+}
+
+.inbox-modal_revise .revise-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inbox-modal_revise #feedback-message {
+    padding: var(--spacing-s);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-m);
+}
+
+.inbox-modal_revise label {
+    width: 100%;
+    margin-top: var(--spacing-m);
+}
+
+.inbox-modal_revise .feedback-btn {
+    width: 40%;
+    background-color: lightgreen;
 }
