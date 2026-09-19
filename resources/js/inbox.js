@@ -6,19 +6,19 @@ import {
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getCurrentUser, getUsername, isAdmin } from "./auth.js";
-import { renderLogUser } from "./dom.js";
+import { renderLogUser, renderFeedback } from "./dom.js";
 
 const templateContainerEl = document.querySelector(".template-container");
 const inboxModal = document.querySelector(".inbox-modal");
 const reviseModal = document.querySelector(".inbox-modal_revise");
+const feedbackModal = document.querySelector(".inbox-modal_preview-feedback");
 const reviseForm = document.querySelector(".revise-form");
 const token = localStorage.getItem("authToken");
 const user = getCurrentUser();
+let rejectedStatus = false;
+let inboxDocuments = null;
 let docStats = null;
 let docId = null;
-
-console.log(user.role);
-// reviseModal.showModal();
 
 if (isAdmin()) {
     renderPrivatePage();
@@ -28,7 +28,7 @@ renderLogUser(getUsername());
 getDocuments();
 
 async function getDocuments() {
-    await getInboxDocsAPI(token);
+    inboxDocuments = await getInboxDocsAPI(token);
 }
 
 document
@@ -41,6 +41,8 @@ document
 templateContainerEl.addEventListener("click", async (e) => {
     if (e.target.closest(".document-item")) {
         docId = e.target.closest(".document-item").dataset.documentId;
+        const docIndex =
+            e.target.closest(".document-item").dataset.documentIndex;
 
         const isReviewed = await documentPreviewAPI(token, docId);
 
@@ -50,6 +52,9 @@ templateContainerEl.addEventListener("click", async (e) => {
             };
             updateDocStatsAPI(token, docId, docStats);
             inboxModal.showModal();
+        } else {
+            renderFeedback(inboxDocuments[docIndex].feedback);
+            feedbackModal.showModal();
         }
     }
 });
@@ -74,14 +79,14 @@ inboxModal.addEventListener("click", async (e) => {
             };
         }
     } else if (e.target.closest(".revision-btn")) {
-        reviseModal.showModal();
-        inboxModal.close();
+        renderFeedback(inboxDocuments, "Revision");
+        showCloseModals();
+        return;
     } else if (e.target.closest(".reject-btn")) {
-        console.log(`Document rejected activated : ${docId}`);
-
-        docStats = {
-            status: "Rejected",
-        };
+        rejectedStatus = true;
+        renderFeedback(inboxDocuments, "Rejection");
+        showCloseModals();
+        return;
     }
     updateDocStats();
 });
@@ -93,14 +98,20 @@ reviseModal.addEventListener("click", async (e) => {
     }
 
     if (e.target.closest(".feedback-btn")) {
-        console.log("feedback button activated");
+        getFeedbackFormData();
+    }
+});
 
-        // docStats = {
-        //     status: "Revise",
-        // };
-        // updateDocStats();
+feedbackModal.addEventListener("click", (e) => {
+    if (e.target.closest(".cancel-btn")) {
+        feedbackModal.close();
+        return;
+    }
 
-        getFormData();
+    if (e.target.closest(".resubmit-btn")) {
+        window.location.href = "/document/upload";
+        feedbackModal.close();
+        return;
     }
 });
 
@@ -112,7 +123,7 @@ async function updateDocStats() {
     }
 }
 
-function getFormData() {
+function getFeedbackFormData() {
     reviseForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -120,12 +131,24 @@ function getFormData() {
 
         const feedbackMessage = formData.get("message");
 
-        docStats = {
-            status: "Revise",
-            feedback: feedbackMessage,
-        };
+        if (rejectedStatus) {
+            docStats = {
+                status: "Rejected",
+                feedback: feedbackMessage,
+            };
+        } else {
+            docStats = {
+                status: "Revise",
+                feedback: feedbackMessage,
+            };
+        }
 
         updateDocStats();
         // console.log(docStats);
     });
+}
+
+function showCloseModals() {
+    inboxModal.close();
+    reviseModal.showModal();
 }

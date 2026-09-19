@@ -227,6 +227,7 @@ export async function getInboxDocsAPI(token) {
 
         console.log(result.data);
         renderInboxTable(result.data);
+        return result.data;
     } catch (error) {
         console.error("FAILED TO FETCH PENDING DOCS ", error);
     }

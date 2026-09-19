@@ -89,10 +89,12 @@ export function renderUsers(users) {
 }
 
 export function renderInboxTable(datas) {
-    datas.forEach((data) => {
+    datas.forEach((data, index) => {
         const clone = documentTemplate.content.cloneNode(true);
 
         clone.querySelector(".document-item").dataset.documentId = data.id;
+        clone.querySelector(".document-item").dataset.documentIndex = index;
+
         clone.querySelector(".tracking-number").textContent =
             data.tracking_number;
         clone.querySelector(".file-name").textContent = data.original_name;
@@ -106,4 +108,23 @@ export function renderInboxTable(datas) {
     });
 
     templateContainer.appendChild(fragment);
+}
+
+export function renderFeedback(feedbackDatas, modalTitle) {
+    document.querySelector(".feedback-title").textContent =
+        `Request ${modalTitle}`;
+
+    const feedbackFromEl = document.querySelector(".feedback-from");
+    const feedbackActionEl = document.querySelector(".feedback-action");
+    const feedbackMessageEl = document.querySelector(".feedback-message");
+
+    feedbackFromEl.textContent = "";
+    feedbackActionEl.textContent = "";
+    feedbackMessageEl.textContent = "";
+
+    feedbackDatas.forEach((feedback) => {
+        feedbackFromEl.textContent = feedback.reviewer;
+        feedbackActionEl.textContent = feedback.action;
+        feedbackMessageEl.textContent = feedback.message;
+    });
 }

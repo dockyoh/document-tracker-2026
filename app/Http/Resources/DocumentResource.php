@@ -27,7 +27,19 @@ class DocumentResource extends JsonResource
             // 'role' => $this->uploader?->role,
             // 'created_at' => $this->created_at?->toIso8601String(),
             'created_at' => $this->created_at?->diffForHumans(),
-            'updated_human' => $this->updated_at?->diffForHumans()
+            'updated_human' => $this->updated_at?->diffForHumans(),
+            // ---------------------------------------------------------
+            // RETURN FEEDBACK HISTORY
+            // ---------------------------------------------------------
+            "feedback" => $this->feedback->map(function ($feedback) {
+                return [
+                    "message" => $feedback->message,
+                    "action" => $feedback->action,
+                    "reviewer" => $feedback->user?->name,
+                    "created_at" => $feedback->created_at->diffForHumans(),
+                    "updated_at" => $feedback->updated_at->diffForHumans()
+                ];
+            })
         ];
     }
 }

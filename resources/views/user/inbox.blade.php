@@ -43,6 +43,7 @@
                 <span class="column-name" role="columnheader">Created at</span>
             </li>
             <div class="template-container"></div>
+            {{-- INBOX TEMPLATE --}}
             <template class="document-item-template">
                 <li class="document-item" role="row">
                     <span class="tracking-number" role="cell"></span>
@@ -67,7 +68,7 @@
        </dialog>
        {{-- REVISE MODAL --}}
        <dialog class="inbox-modal_revise inbox-modal">
-        <h2>Request Revision</h2>
+        <h2 class="feedback-title">Request Revision</h2>
         <h3>Document Title...</h3>
         <form action="" method="post" class="revise-form">
             <label for="feedback-message">Feedback:</label>
@@ -83,6 +84,29 @@
                 <button type="button" class="cancel-btn inbox-modal-btn">Cancel</button>
             </div>
         </form>
+       </dialog>
+       <dialog class="inbox-modal_preview-feedback inbox-modal">
+            <h2>Feedback</h2>
+            
+            <div class="from-wrapper wrapper">
+                <h3>From:</h3>
+                <p class="feedback-from"></p>
+            </div>
+            
+            <div class="action-wrapper wrapper">
+                <h3>Action:</h3>
+                <p class="feedback-action"></p>
+            </div>
+            
+            <div class="message-wrapper wrapper">
+                <h3>Message:</h3>
+                <p class="feedback-message"></p>
+            </div>
+            
+            <div class="button-container">
+                <button type="button" class="resubmit-btn inbox-modal-btn">Resubmit</button>
+                <button type="button" class="cancel-btn inbox-modal-btn">Cancel</button>
+            </div>
        </dialog>
     </main>
 </body>
