@@ -8,6 +8,8 @@ import { renderPrivatePage } from "./auth-dom.js";
 import { getCurrentUser, getUsername, isAdmin } from "./auth.js";
 import { renderLogUser, renderFeedback } from "./dom.js";
 
+localStorage.removeItem("resubmitDoc");
+
 const templateContainerEl = document.querySelector(".template-container");
 const inboxModal = document.querySelector(".inbox-modal");
 const reviseModal = document.querySelector(".inbox-modal_revise");
@@ -19,6 +21,7 @@ let rejectedStatus = false;
 let inboxDocuments = null;
 let docStats = null;
 let docId = null;
+let reviewerId = null;
 
 if (isAdmin()) {
     renderPrivatePage();
@@ -54,6 +57,10 @@ templateContainerEl.addEventListener("click", async (e) => {
             inboxModal.showModal();
         } else {
             renderFeedback(inboxDocuments[docIndex].feedback);
+            const feedback = inboxDocuments[docIndex].feedback;
+            reviewerId =
+                inboxDocuments[docIndex].feedback[feedback.length - 1]
+                    .reviewer_id;
             feedbackModal.showModal();
         }
     }
@@ -109,6 +116,13 @@ feedbackModal.addEventListener("click", (e) => {
     }
 
     if (e.target.closest(".resubmit-btn")) {
+        const resubmitDoc = {
+            id: docId,
+            reviewerId: reviewerId,
+        };
+
+        localStorage.setItem("resubmitDoc", JSON.stringify(resubmitDoc));
+
         window.location.href = "/document/upload";
         feedbackModal.close();
         return;

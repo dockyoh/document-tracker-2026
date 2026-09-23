@@ -2,6 +2,8 @@ import { getUsersAPI, asignRoleAPI, logoutAPI } from "./api.js";
 import { getUsername, isAdmin } from "./auth.js";
 import { renderLogUser } from "./dom.js";
 
+localStorage.removeItem("resubmitDoc");
+
 const templateContainer = document.querySelector(".template-container");
 const token = localStorage.getItem("authToken");
 

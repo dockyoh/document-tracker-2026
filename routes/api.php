@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('documents', DocumentController::class);
     Route::get('/documents/{document}/preview', [DocumentController::class, 'preview']);
+    Route::post('/documents/{id}/resubmit', [DocumentController::class, 'resubmit']);
     Route::apiResource('inbox', InboxController::class);
 });
 

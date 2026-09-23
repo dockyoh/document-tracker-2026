@@ -286,3 +286,29 @@ export async function updateDocStatsAPI(token, id, status) {
         console.error("FAILED TO UPDATE DOCUMENT STATUS :", error);
     }
 }
+
+export async function resubmitDocAPI(token, id, formData) {
+    try {
+        renderLoading();
+        const response = await fetch(`/api/documents/${id}/resubmit`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ERROR STATUS: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log(result);
+        renderDoneLoading;
+        window.location.href = "/";
+    } catch (error) {
+        console.error("FAILED TO RESUBMIT DOCUMENT API ", error);
+    }
+}

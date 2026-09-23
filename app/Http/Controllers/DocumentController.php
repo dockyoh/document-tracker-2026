@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ResubmitDocumentRequest;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 use App\Http\Resources\DocumentResource;
@@ -74,7 +75,6 @@ class DocumentController extends Controller
 
         if (($validated["status"] ?? null) === "Pending") {
             $departmentHead = User::where("role", "department head")->firstOrFail();
-
             $validated["focal_person_id"] = $departmentHead->id;
         } else if (($validated["status"] ?? null) === "Approved") {
             $validated["focal_person_id"] = null;
@@ -104,6 +104,7 @@ class DocumentController extends Controller
         //
     }
 
+    // PREVIEW DOCUMENT API
     public function preview(Document $document): StreamedResponse
     {
 
@@ -130,5 +131,27 @@ class DocumentController extends Controller
                 'Content-Disposition' => 'inline; filename = " ' . $document->original_name . ' "'
             ]
         );
+    }
+
+    public function resubmit(ResubmitDocumentRequest $request, string $id): DocumentResource
+    {
+        $document = Document::findOrFail($id);
+
+        $validated = $request->validated();
+
+        $file = $request->file('document');
+
+        $newFilePath = $file->store('documents', 'local');
+
+        $document->update([
+            'original_name'   => $file->getClientOriginalName(),
+            'file_path'       => $newFilePath,
+            'file_size'       => $file->getSize(),
+            'mime_type'       => $file->getMimeType(),
+            'status'          => 'Pending',
+            'focal_person_id' => $validated['reviewer_id']
+        ]);
+
+        return new DocumentResource($document->fresh());
     }
 }

@@ -1,4 +1,9 @@
-import { logoutAPI, uploadAPI } from "./api.js";
+import {
+    logoutAPI,
+    updateDocStatsAPI,
+    uploadAPI,
+    resubmitDocAPI,
+} from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
 import {
@@ -8,13 +13,13 @@ import {
     renderLogUser,
 } from "./dom.js";
 
+let fileSelected = null;
+let resubmitDoc = null;
+
 const fileInput = document.querySelector("#file-input");
 const uploadBtn = document.querySelector(".upload-btn");
 const templateContainer = document.querySelector(".template-container");
 const token = localStorage.getItem("authToken");
-
-let fileSelected = null;
-
 const CONFIG = {
     MAX_SIZE_MB: 10,
     ALLOWED_TYPES: [
@@ -32,6 +37,10 @@ if (isAdmin()) {
 
 renderLogUser(getUsername());
 
+getResubmitDoc();
+
+console.log(resubmitDoc);
+
 fileInput.addEventListener("change", (e) => {
     if (e.target.files.length > 0) {
         handleFileSelection(e.target.files[0]);
@@ -47,7 +56,15 @@ uploadBtn.addEventListener("click", async (e) => {
     const formData = new FormData();
     formData.append("document", fileSelected);
 
-    await uploadAPI(formData, token);
+    if (resubmitDoc) {
+        formData.append("reviewer_id", resubmitDoc.reviewerId);
+        await resubmitDocAPI(token, resubmitDoc.id, formData);
+        console.log("Ready to resubmit documents");
+        return;
+    } else {
+        await uploadAPI(formData, token);
+        return;
+    }
 });
 
 // REMOVE BUTTON
@@ -83,3 +100,7 @@ document
         console.log(token);
         await logoutAPI(token);
     });
+
+function getResubmitDoc() {
+    resubmitDoc = JSON.parse(localStorage.getItem("resubmitDoc"));
+}

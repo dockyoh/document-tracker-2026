@@ -36,6 +36,7 @@ class DocumentResource extends JsonResource
                     "message" => $feedback->message,
                     "action" => $feedback->action,
                     "reviewer" => $feedback->user?->name,
+                    "reviewer_id" => $feedback->user?->id,
                     "created_at" => $feedback->created_at->diffForHumans(),
                     "updated_at" => $feedback->updated_at->diffForHumans()
                 ];

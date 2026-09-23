@@ -3,6 +3,8 @@ import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
 import { renderLogUser } from "./dom.js";
 
+localStorage.removeItem("resubmitDoc");
+
 const token = localStorage.getItem("authToken");
 
 if (isAdmin()) {
