@@ -86,7 +86,11 @@ class DocumentController extends Controller
                 "user_id" => $request->user()->id
             ]);
 
-            $validated["focal_person_id"] = $document->uploader_id;
+            if (($validated['status'] ?? null) === 'Rejected') {
+                $validated["focal_person_id"] = null;
+            } else {
+                $validated["focal_person_id"] = $document->uploader_id;
+            }
 
             unset($validated["feedback"]);
         }
@@ -151,6 +155,24 @@ class DocumentController extends Controller
             'status'          => 'Pending',
             'focal_person_id' => $validated['reviewer_id']
         ]);
+
+        return new DocumentResource($document->fresh());
+    }
+
+    public function completeArchived(string $id): DocumentResource
+    {
+        $document = Document::findOrFail($id);
+
+        if ($document->status === "Approved") {
+            $document->update([
+                'status' => 'Completed',
+                'archived_at' => now()
+            ]);
+        } else if ($document->status === "Rejected") {
+            $document->update([
+                'archived_at' => now()
+            ]);
+        }
 
         return new DocumentResource($document->fresh());
     }

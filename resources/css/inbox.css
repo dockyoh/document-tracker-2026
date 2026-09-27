@@ -123,6 +123,22 @@ header .manage-role-link {
     text-overflow: ellipsis;
 }
 
+.complete-btn {
+    text-align: left;
+    width: 50%;
+    padding: 2.5px;
+    font-size: 1rem;
+    border-radius: var(--spacing-s);
+    border: none;
+    background-color: lightgreen;
+    transition: all 0.15s ease-in-out;
+}
+
+.complete-btn:hover {
+    background-color: green;
+    color: white;
+}
+
 /* MODAL SECTION */
 .inbox-modal {
     border: none;
@@ -229,6 +245,11 @@ header .manage-role-link {
 }
 
 .inbox-modal_preview-feedback .resubmit-btn {
+    width: 20%;
+    background-color: lightgreen;
+}
+
+.inbox-modal_preview-feedback .archived-btn {
     width: 20%;
     background-color: lightgreen;
 }

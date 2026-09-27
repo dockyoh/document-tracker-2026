@@ -3,6 +3,7 @@ import {
     getInboxDocsAPI,
     documentPreviewAPI,
     updateDocStatsAPI,
+    completeArchivedAPI,
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getCurrentUser, getUsername, isAdmin } from "./auth.js";
@@ -47,9 +48,7 @@ templateContainerEl.addEventListener("click", async (e) => {
         const docIndex =
             e.target.closest(".document-item").dataset.documentIndex;
 
-        const isReviewed = await documentPreviewAPI(token, docId);
-
-        if (isReviewed && user.role !== "staff") {
+        if (user.role !== "staff") {
             const docStats = {
                 status: "Review",
             };
@@ -57,12 +56,29 @@ templateContainerEl.addEventListener("click", async (e) => {
             inboxModal.showModal();
         } else {
             renderFeedback(inboxDocuments[docIndex].feedback);
+
             const feedback = inboxDocuments[docIndex].feedback;
-            reviewerId =
-                inboxDocuments[docIndex].feedback[feedback.length - 1]
-                    .reviewer_id;
-            feedbackModal.showModal();
+
+            if (feedback.length > 0) {
+                reviewerId =
+                    inboxDocuments[docIndex].feedback[feedback.length - 1]
+                        .reviewer_id;
+                feedbackModal.showModal();
+            }
         }
+    }
+
+    // COMPLETE BUTTON
+    if (e.target.closest(`.complete-btn-${docId}`)) {
+        console.log(`Complete button activated for document ID: ${docId}`);
+        const completedDocument = await completeArchivedAPI(token, docId);
+        if (completedDocument) {
+            console.log(completedDocument.data);
+            window.location.href = "/user/inbox";
+        }
+        return;
+    } else {
+        await documentPreviewAPI(token, docId);
     }
 });
 
@@ -70,6 +86,7 @@ templateContainerEl.addEventListener("click", async (e) => {
 inboxModal.addEventListener("click", async (e) => {
     if (e.target.closest(".close-btn")) {
         inboxModal.close();
+        window.location.href = "/user/inbox";
         return;
     }
 
@@ -109,7 +126,7 @@ reviseModal.addEventListener("click", async (e) => {
     }
 });
 
-feedbackModal.addEventListener("click", (e) => {
+feedbackModal.addEventListener("click", async (e) => {
     if (e.target.closest(".cancel-btn")) {
         feedbackModal.close();
         return;
@@ -127,6 +144,17 @@ feedbackModal.addEventListener("click", (e) => {
         feedbackModal.close();
         return;
     }
+
+    if (e.target.closest(".archived-btn")) {
+        console.log("ARCHIVED BUTTON ACTIVATED");
+
+        const archived = await completeArchivedAPI(token, docId);
+
+        if (archived) {
+            window.location.href = "/user/inbox";
+        }
+        return;
+    }
 });
 
 async function updateDocStats() {
@@ -134,6 +162,8 @@ async function updateDocStats() {
         await updateDocStatsAPI(token, docId, docStats);
         inboxModal.close();
         reviseModal.close();
+        window.location.href = "/user/inbox";
+        return;
     }
 }
 

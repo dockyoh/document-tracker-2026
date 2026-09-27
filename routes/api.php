@@ -16,6 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('documents', DocumentController::class);
     Route::get('/documents/{document}/preview', [DocumentController::class, 'preview']);
     Route::post('/documents/{id}/resubmit', [DocumentController::class, 'resubmit']);
+    Route::put('/documents/{id}/completeArchived', [DocumentController::class, 'completeArchived']);
     Route::apiResource('inbox', InboxController::class);
 });
 

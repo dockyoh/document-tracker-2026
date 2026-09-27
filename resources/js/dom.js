@@ -88,6 +88,7 @@ export function renderUsers(users) {
     templateContainer.appendChild(fragment);
 }
 
+// RENDER INBOX TABLE
 export function renderInboxTable(datas) {
     datas.forEach((data, index) => {
         const clone = documentTemplate.content.cloneNode(true);
@@ -98,7 +99,14 @@ export function renderInboxTable(datas) {
         clone.querySelector(".tracking-number").textContent =
             data.tracking_number;
         clone.querySelector(".file-name").textContent = data.original_name;
-        clone.querySelector(".status").textContent = data.status;
+
+        // CHANGE THE SPAN ELEMENT TO BUTTON ELEMENT IF THE STATUS IS APPROVED
+        if (data.status === "Approved") {
+            renderCompleteButton(clone, data);
+        } else {
+            clone.querySelector(".status").textContent = data.status;
+        }
+
         clone.querySelector(".focal").textContent = data.focal;
         clone.querySelector(".author").textContent = data.uploader;
         clone.querySelector(".updated-at").textContent = data.updated_human;
@@ -110,6 +118,18 @@ export function renderInboxTable(datas) {
     templateContainer.appendChild(fragment);
 }
 
+function renderCompleteButton(clone, data) {
+    const span = clone.querySelector(".status");
+    const buttonEl = document.createElement("button");
+
+    buttonEl.textContent = "Complete";
+    buttonEl.type = "button";
+    buttonEl.classList.add(`complete-btn-${data.id}`);
+    buttonEl.classList.add("complete-btn");
+
+    span.replaceWith(buttonEl);
+}
+
 export function renderFeedback(feedbackDatas, modalTitle) {
     document.querySelector(".feedback-title").textContent =
         `Request ${modalTitle}`;
@@ -117,6 +137,7 @@ export function renderFeedback(feedbackDatas, modalTitle) {
     const feedbackFromEl = document.querySelector(".feedback-from");
     const feedbackActionEl = document.querySelector(".feedback-action");
     const feedbackMessageEl = document.querySelector(".feedback-message");
+    const resubmitBtnEl = document.querySelector(".resubmit-btn");
 
     feedbackFromEl.textContent = "";
     feedbackActionEl.textContent = "";
@@ -126,5 +147,13 @@ export function renderFeedback(feedbackDatas, modalTitle) {
         feedbackFromEl.textContent = feedback.reviewer;
         feedbackActionEl.textContent = feedback.action;
         feedbackMessageEl.textContent = feedback.message;
+
+        if (feedback.action === "Rejected") {
+            if (resubmitBtnEl) {
+                resubmitBtnEl.textContent = "Archived";
+                resubmitBtnEl.classList.add("archived-btn");
+                resubmitBtnEl.classList.remove("resubmit-btn");
+            }
+        }
     });
 }

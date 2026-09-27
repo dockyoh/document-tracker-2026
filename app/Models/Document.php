@@ -14,6 +14,7 @@ class Document extends Model
         'file_size',
         'mime_type',
         'status',
+        'archived_at',
         'focal_person_id',
         'uploader_id'
     ];

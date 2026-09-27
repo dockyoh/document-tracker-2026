@@ -221,6 +221,11 @@ export async function getInboxDocsAPI(token) {
 
         const result = await response.json();
 
+        if (response.status === 401) {
+            window.location.href = "/user/login";
+            return;
+        }
+
         if (!response.ok) {
             throw new Error(`HTTP STATUS ERROR ${response.status}`);
         }
@@ -310,5 +315,28 @@ export async function resubmitDocAPI(token, id, formData) {
         window.location.href = "/";
     } catch (error) {
         console.error("FAILED TO RESUBMIT DOCUMENT API ", error);
+    }
+}
+
+export async function completeArchivedAPI(token, id) {
+    try {
+        console.log("completeDocumentAPI activated");
+        const response = await fetch(`/api/documents/${id}/completeArchived`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ERROR STATUS: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        return result;
+    } catch (error) {
+        console.error("FAILED TO FETCH COMPLETE API".error);
     }
 }

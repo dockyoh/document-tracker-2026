@@ -28,6 +28,7 @@ class DocumentResource extends JsonResource
             // 'created_at' => $this->created_at?->toIso8601String(),
             'created_at' => $this->created_at?->diffForHumans(),
             'updated_human' => $this->updated_at?->diffForHumans(),
+            'archived_at' => $this->archived_at,
             // ---------------------------------------------------------
             // RETURN FEEDBACK HISTORY
             // ---------------------------------------------------------
