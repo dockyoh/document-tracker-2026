@@ -21,7 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'can:manage-roles'])->group(function () {
-    Route::apiResource('asign-role', UserController::class);
+    Route::apiResource('users', UserController::class);
+    Route::put('users/{id}/updateUserStatus', [UserController::class, 'updateUserStatus']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);

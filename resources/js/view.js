@@ -1,10 +1,17 @@
-import { getUsersAPI, asignRoleAPI, logoutAPI } from "./api.js";
+import {
+    getUsersAPI,
+    updateUserRoleAPI,
+    logoutAPI,
+    updateUserStatusAPI,
+} from "./api.js";
 import { getUsername, isAdmin } from "./auth.js";
 import { renderLogUser } from "./dom.js";
 
 localStorage.removeItem("resubmitDoc");
 
-const templateContainer = document.querySelector(".template-container");
+const templateContainerUser = document.querySelector(
+    ".template-container-user",
+);
 const token = localStorage.getItem("authToken");
 
 if (!isAdmin()) {
@@ -18,7 +25,7 @@ async function getUsers() {
     await getUsersAPI(token);
 }
 
-templateContainer.addEventListener("change", async (e) => {
+templateContainerUser.addEventListener("change", async (e) => {
     if (e.target.matches(".user-role-form select")) {
         e.preventDefault();
 
@@ -29,7 +36,23 @@ templateContainer.addEventListener("change", async (e) => {
 
         const formData = new FormData(roleForm);
 
-        await asignRoleAPI(userId, formData, token);
+        await updateUserRoleAPI(userId, formData, token);
+    }
+});
+
+// APPROVE NEW USER
+templateContainerUser.addEventListener("click", async (e) => {
+    const userItem = e.target.closest(".user-item");
+
+    const userId = userItem.dataset.userId;
+
+    if (e.target.closest(`.approve-btn-${userId}`)) {
+        console.log(`Approve button number ${userId} activated`);
+        const result = updateUserStatusAPI(token, userId);
+        if (result) {
+            window.location.href = "/user/view";
+        }
+        return;
     }
 });
 

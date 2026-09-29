@@ -3,6 +3,7 @@ import { registerAPI, loginAPI } from "./api.js";
 const signupForm = document.querySelector(".signup-form");
 const loginForm = document.querySelector(".login-form");
 
+// SIGNUP/REGISTER
 signupForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
