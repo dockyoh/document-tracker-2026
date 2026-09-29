@@ -23,6 +23,7 @@ class AuthController extends Controller
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
+            'status' => 'pending'
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -33,6 +34,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // LOGIN
     public function login(Request $request): JsonResponse
     {
         $field = $request->validate([
@@ -42,9 +44,15 @@ class AuthController extends Controller
 
         $user = User::where('email', $field['email'])->first();
 
-        if (!$user || !Hash::check($field['password'], $user->password)) {
+        if ($user->status === 'approved') {
+            if (!$user || !Hash::check($field['password'], $user->password)) {
+                return response()->json([
+                    'message' => 'INVALID CREDENTIALS'
+                ], 401);
+            }
+        } else {
             return response()->json([
-                'message' => 'INVALID CREDENTIALS'
+                'message' => 'NEEDS ADMIN APPROVAL'
             ], 401);
         }
 

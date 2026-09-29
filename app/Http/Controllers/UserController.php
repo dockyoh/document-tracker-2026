@@ -41,11 +41,11 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, string $id): UserResource
     {
-        $role = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        $role->update($request->validated());
+        $user->update($request->validated());
 
-        return new UserResource($role);
+        return new UserResource($user->fresh());
     }
 
     /**
@@ -54,5 +54,19 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    // UPDATE USER STATUS
+    public function updateUserStatus(string $id): UserResource
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->status === "pending") {
+            $user->update([
+                'status' => 'approved'
+            ]);
+        }
+
+        return new UserResource($user->fresh());
     }
 }

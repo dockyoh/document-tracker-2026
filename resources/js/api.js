@@ -66,6 +66,7 @@ export async function uploadAPI(formData, token) {
     }
 }
 
+// SIGNUP/REGISTER API
 export async function registerAPI(formData) {
     try {
         const response = await fetch("/api/register", {
@@ -93,6 +94,7 @@ export async function registerAPI(formData) {
     }
 }
 
+// LOGIN API
 export async function loginAPI(formData) {
     try {
         const response = await fetch("/api/login", {
@@ -103,17 +105,14 @@ export async function loginAPI(formData) {
             body: formData,
         });
 
-        // if (!response.ok) {
-        //     throw new Error(`HTTP ERROR STATUS ${response.status}`);
-        // }
+        const loginuser = await response.json();
 
         if (response.status === 401) {
-            const errors = [loginuser.message];
-            renderAuthErrors(errors);
+            renderAuthErrors([loginuser.message]);
             return;
         }
 
-        const loginuser = await response.json();
+        console.log(loginuser.message);
 
         localStorage.setItem("authToken", loginuser.token);
         localStorage.setItem("user", JSON.stringify(loginuser.user));
@@ -155,7 +154,7 @@ export async function logoutAPI(token) {
 
 export async function getUsersAPI(token) {
     try {
-        const response = await fetch("/api/asign-role", {
+        const response = await fetch("/api/users", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -181,9 +180,9 @@ export async function getUsersAPI(token) {
     }
 }
 
-export async function asignRoleAPI(id, roleData, token) {
+export async function updateUserRoleAPI(id, roleData, token) {
     try {
-        const response = await fetch(`/api/asign-role/${id}`, {
+        const response = await fetch(`/api/users/${id}`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -206,6 +205,29 @@ export async function asignRoleAPI(id, roleData, token) {
         console.log(result.data);
     } catch (error) {
         console.error("FAILED TO USER ROLE ", error);
+    }
+}
+
+export async function updateUserStatusAPI(token, userId) {
+    try {
+        const response = await fetch(`/api/users/${userId}/updateUserStatus`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP STATUS ERROR ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error("FAILED TO FETCH USERS AUPDATE", error);
     }
 }
 

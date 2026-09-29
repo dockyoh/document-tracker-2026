@@ -1,4 +1,7 @@
 const templateContainer = document.querySelector(".template-container");
+const templateContainerUser = document.querySelector(
+    ".template-container-user",
+);
 const fragment = document.createDocumentFragment();
 const previewTemplate = document.querySelector(".file-preview-template");
 const errorTemplate = document.querySelector(".upload-error-template");
@@ -83,9 +86,25 @@ export function renderUsers(users) {
         clone.querySelector(".select-role").value = user.role;
         clone.querySelector(".user-item").dataset.userId = user.id;
 
+        if (user.status === "pending") {
+            renderApprovedBtn(clone, user.id);
+        } else {
+            clone.querySelector(".user-status").textContent = user.status;
+        }
+
         fragment.appendChild(clone);
     });
-    templateContainer.appendChild(fragment);
+    templateContainerUser.appendChild(fragment);
+}
+
+function renderApprovedBtn(clone, id) {
+    const approvedBtnEl = document.createElement("button");
+    approvedBtnEl.textContent = "Approve";
+    approvedBtnEl.type = "button";
+    approvedBtnEl.classList.add("approve-btn");
+    approvedBtnEl.classList.add(`approve-btn-${id}`);
+
+    clone.querySelector(".user-status").replaceWith(approvedBtnEl);
 }
 
 // RENDER INBOX TABLE

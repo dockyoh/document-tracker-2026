@@ -15,7 +15,7 @@
 </head>
 <body>
     <header>
-        <h1>Manage Role</h1>
+        <h1>Manage User</h1>
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
@@ -32,9 +32,10 @@
        <ul class="user-table-container" role="table" aria-label="Users">
             <li class="column-name-container" role="row">
                 <span class="column-name" role="columnheader">Name</span>
-                <span class="column-name" role="columnheader">Role</span>
+                <span class="column-name role-column" role="columnheader">Role</span>
+                <span class="column-name" role="columnheader">Status</span>
             </li>
-            <div class="template-container"></div>
+            <div class="template-container-user"></div>
             <template class="user-item-template">
                  <li class="user-item" role="row">
                     <span class="username" role="cell"></span>
@@ -46,6 +47,7 @@
                             <option value="admin">Admin</option>
                         </select>
                     </form>
+                    <span class="user-status" role="cell"></span>
                 </li>
             </template>
        </ul>
