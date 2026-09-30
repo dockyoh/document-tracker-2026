@@ -1,0 +1,24 @@
+*,
+::before,
+::after {
+    padding: 0px;
+    margin: 0px;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+:root {
+    --spacing-s: 5px;
+    --spacing-m: 10px;
+    --spacing-l: 15px;
+    --spacing-xl: 20px;
+    --spacing-xxl: 25px;
+    --spacing-xxxl: 30px;
+}
+
+html,
+body {
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 1180px;
+}
