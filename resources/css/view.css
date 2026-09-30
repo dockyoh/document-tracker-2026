@@ -15,10 +15,6 @@
     --form-width: 50%;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 /* TABLE SECTION */
 .user-table-container {
     max-width: 30%;
