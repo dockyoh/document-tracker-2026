@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     @vite('resources/css/view.css')
+    @vite('resources/css/header.css')
     @vite('resources/js/view.js')
     <script>
         const token = localStorage.getItem('authToken');
@@ -15,12 +16,13 @@
 </head>
 <body>
     <header>
-        <h1>Manage User</h1>
+        <h1 class="page-title">Manage User</h1>
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/user/inbox">Inbox</a></li>
                 <li><a href="/document/upload">Upload</a></li>
+                <li class="manage-role-link"><a href="/user/view">Manage User</a></li>
             </ul>
         </nav>
         <div class="user-container">

@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
+    @vite('resources/css/header.css')
     @vite('resources/js/auth.js')
     <title>Login User</title>
 </head>
 <body>
     <header>
-        <h1>Login</h1>
+        <h1 class="page-title">Login</h1>
         <nav class="navbar">
             <ul class='register-container'>
                 <li><a href="/user/register">Register</a></li>

@@ -4,6 +4,7 @@ import {
     logoutAPI,
     updateUserStatusAPI,
 } from "./api.js";
+import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
 import { renderLogUser } from "./dom.js";
 
@@ -16,6 +17,8 @@ const token = localStorage.getItem("authToken");
 
 if (!isAdmin()) {
     window.location.href = "/";
+} else {
+    renderPrivatePage();
 }
 
 getUsers();
