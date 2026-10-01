@@ -13,6 +13,8 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/documents/archived', [DocumentController::class, 'archived']);
+    Route::get('/documents/{document}/previewArchived', [DocumentController::class, 'previewArchived']);
     Route::apiResource('documents', DocumentController::class);
     Route::get('/documents/{document}/preview', [DocumentController::class, 'preview']);
     Route::post('/documents/{id}/resubmit', [DocumentController::class, 'resubmit']);

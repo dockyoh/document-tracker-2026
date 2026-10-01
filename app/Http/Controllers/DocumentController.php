@@ -24,7 +24,7 @@ class DocumentController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $documents = Document::with('uploader')->get();
+        $documents = Document::with('uploader')->whereNull('archived_at')->get();
 
         return DocumentResource::collection($documents);
     }
@@ -137,6 +137,40 @@ class DocumentController extends Controller
         );
     }
 
+    // PREVIEW ARCHIVED DOCUMENT API
+    public function previewArchived(Document $document, Request $request): StreamedResponse
+    {
+        $user = $request->user();
+
+        $isReviewerAdmin = in_array($user->role, ['reviewer', 'department head', 'admin'], true);
+        $isUploader = $document->uploader_id === $user->id;
+
+        if (!$isReviewerAdmin && !$isUploader) {
+            abort(403, "PREVIEW DENIED");
+        }
+
+        if (is_null($document->archived_at)) {
+            abort(404, "DOCUMENT IS NOT YET ARCHIVED");
+        }
+
+        if (!$document->file_path) {
+            abort(404, 'DOCUMENT HAS NO FILE PATH');
+        }
+
+        if (!Storage::disk('local')->exists($document->file_path)) {
+            abort(404, 'FILE NOT FOUND');
+        }
+
+        return Storage::response(
+            $document->file_path,
+            $document->original_name,
+            [
+                'Content-Type' => $document->mime_type,
+                'Content-Disposition' => 'inline; filename = " ' . $document->original_name . ' "'
+            ]
+        );
+    }
+
     public function resubmit(ResubmitDocumentRequest $request, string $id): DocumentResource
     {
         $document = Document::findOrFail($id);
@@ -175,5 +209,13 @@ class DocumentController extends Controller
         }
 
         return new DocumentResource($document->fresh());
+    }
+
+    // GET ONLY ARCHIVED DOCUMENTS
+    public function archived(): AnonymousResourceCollection
+    {
+        $documents = Document::with('uploader')->whereNotNull('archived_at')->latest('archived_at')->get();
+
+        return DocumentResource::collection($documents);
     }
 }

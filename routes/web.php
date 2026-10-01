@@ -12,3 +12,4 @@ Route::view('/user/view', 'user.view');
 Route::view('/user/inbox', 'user.inbox');
 
 Route::view('/document/upload', 'document.upload');
+Route::view('/document/archived', 'document.archived');

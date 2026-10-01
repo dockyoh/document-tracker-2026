@@ -27,6 +27,7 @@
                 <li><a href="/user/inbox">Inbox</a></li>
                 <li><a href="/document/upload">Upload</a></li>
                 <li class="manage-role-link"><a href="/user/view">Manage User</a></li>
+                <li><a href="/document/archived">Archived</a></li>
             </ul>
         </nav>
         <div class="user-container">
