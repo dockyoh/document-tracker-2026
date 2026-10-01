@@ -7,7 +7,7 @@
     @vite('resources/css/body.css')
     @vite('resources/css/header.css')
     @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    @vite('resources/js/archived.js')
     {{-- SECURITY GUARD VVV --}}
     <script>
         const token = localStorage.getItem("authToken");
@@ -16,17 +16,17 @@
         }
     </script>
     {{-- SECURITY GUARD ^^^ --}}
-    <title>Document Tracker - Home</title>
+    <title>Document Tracker - Archived</title>
 </head>
 <body>
     <header>
-        <h1 class="page-title">Document Tracker</h1>
+        <h1 class="page-title">Archived</h1>
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="user/inbox">Inbox</a></li>
-                <li><a href="document/upload">Upload</a></li>
-                <li class="manage-role-link"><a href="user/view">Manage User</a></li>
+                <li><a href="/user/inbox">Inbox</a></li>
+                <li><a href="/document/upload">Upload</a></li>
+                <li class="manage-role-link"><a href="/user/view">Manage User</a></li>
                 <li><a href="/document/archived">Archived</a></li>
             </ul>
         </nav>
@@ -46,7 +46,7 @@
                 <span class="column-name" role="columnheader">Updated at</span>  
                 <span class="column-name" role="columnheader">Created at</span>
             </li>
-            <div class="template-container"></div>
+            <div class="template-container template-container-archived"></div>
             <template class="document-item-template">
                 <li class="document-item" role="row">
                     <span class="tracking-number" role="cell"></span>

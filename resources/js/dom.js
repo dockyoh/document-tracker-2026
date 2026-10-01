@@ -64,6 +64,8 @@ export function renderDocuments(documents) {
         console.log(document);
         const clone = documentTemplate.content.cloneNode(true);
 
+        clone.querySelector(".document-item").dataset.documentId = document.id;
+
         clone.querySelector(".tracking-number").textContent =
             document.tracking_number;
         clone.querySelector(".file-name").textContent = document.original_name;

@@ -35,3 +35,10 @@ export function getUsername() {
     const user = getCurrentUser();
     return user.name;
 }
+
+export function isReviewer() {
+    const user = getCurrentUser();
+    if (user.role === "reviewer" || user.role === "department head") {
+        return true;
+    }
+}

@@ -17,7 +17,7 @@ export async function getDocumentsAPI(token) {
             },
         });
 
-        const documentsusers = await response.json();
+        const result = await response.json();
 
         if (response.status === 401) {
             window.location.href = "/user/login";
@@ -28,11 +28,34 @@ export async function getDocumentsAPI(token) {
             throw new Error(`HTTP status error ${response.status}`);
         }
 
-        renderDocuments(documentsusers.data);
-        // renderInboxTable(documentsusers.data);
+        renderDocuments(result.data);
+        // renderInboxTable(result.data);
         return;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENTS ", error);
+    }
+}
+
+export async function getArchivedDocumentsAPI(token) {
+    try {
+        const response = await fetch("/api/documents/archived", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP STATUS ERROR ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // console.log(result.data);
+        renderDocuments(result.data);
+    } catch (error) {
+        console.error("FAILED TO FETCH ARCHIVED DOCUMENTS ", error);
     }
 }
 
@@ -287,6 +310,38 @@ export async function documentPreviewAPI(token, id) {
         return true;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENT PREVIEW ", error);
+    }
+}
+
+// PREVIEW ARCHIVED API
+export async function previewArchivedAPI(token, docId) {
+    try {
+        const response = await fetch(
+            `/api/documents/${docId}/previewArchived`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
+
+        if (!response.ok) {
+            throw new Error(`STATUS ${response.status}`);
+            // throw new Error(response.status);
+        }
+
+        const result = await response.blob();
+
+        const previewURL = URL.createObjectURL(result);
+
+        window.open(previewURL, "_blank");
+
+        setTimeout(() => {
+            URL.revokeObjectURL(previewURL);
+        }, 60000);
+    } catch (error) {
+        console.error("FAILED TO FETCH PREVIEW ARCHIVED ", error);
     }
 }
 
