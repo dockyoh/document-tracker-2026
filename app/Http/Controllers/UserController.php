@@ -43,7 +43,65 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $user->update($request->validated());
+        $validated = $request->validated();
+
+        if ($validated['role'] === 'admin') {
+            $previewsAdmin = User::where('role', 'admin')->first();
+            if ($user->role === 'department head') {
+                $previewsAdmin?->update([
+                    'role' => 'department head'
+                ]);
+            } else if ($user->role === 'reviewer') {
+                $previewsAdmin?->update([
+                    'role' => 'reviewer'
+                ]);
+            } else {
+                $previewsAdmin?->update([
+                    'role' => 'staff'
+                ]);
+            }
+            // $managementCount--;
+        } else if ($validated['role'] === 'department head') {
+            $previewsHead = User::where('role', 'department head')->first();
+            if ($user->role === 'admin') {
+                $previewsHead?->update([
+                    'role' => 'admin'
+                ]);
+            } else if ($user->role === 'reviewer') {
+                $previewsHead?->update([
+                    'role' => 'reviewer'
+                ]);
+            } else {
+                $previewsHead?->update([
+                    'role' => 'staff'
+                ]);
+            }
+            // $managementCount--;
+        } else if ($validated['role'] === 'reviewer') {
+            $previewsReviewer = User::where('role', 'reviewer')->first();
+            if ($user->role === 'admin') {
+                $previewsReviewer?->update([
+                    'role' => 'admin'
+                ]);
+            } else if ($user->role === 'department head') {
+                $previewsReviewer?->update([
+                    'role' => 'department head'
+                ]);
+            } else {
+                $previewsReviewer?->update([
+                    'role' => 'staff'
+                ]);
+            }
+            // $managementCount--;
+        }
+
+        $reviewerCount = User::where('role', 'reviewer')->count();
+        $adminCount = User::where('role', 'admin')->count();
+        $headCount = User::where('role', 'department head')->count();
+
+        if ($adminCount !== 1 || $headCount !== 1 || $reviewerCount !== 1) {
+            $user->update($validated);
+        }
 
         return new UserResource($user->fresh());
     }

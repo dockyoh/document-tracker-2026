@@ -185,8 +185,10 @@ export async function getUsersAPI(token) {
             },
         });
 
-        if (response.status === 401) {
-            window.location.href = "/user/login";
+        if (response.status === 401 || response.status === 403) {
+            // localStorage.clear();
+            // window.location.href = "/user/login";
+            logoutAPI();
             return;
         }
 
@@ -226,6 +228,7 @@ export async function updateUserRoleAPI(id, roleData, token) {
         }
 
         console.log(result.data);
+        window.location.href = "/user/view";
     } catch (error) {
         console.error("FAILED TO USER ROLE ", error);
     }
