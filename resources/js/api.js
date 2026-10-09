@@ -29,8 +29,7 @@ export async function getDocumentsAPI(token) {
         }
 
         renderDocuments(result.data);
-        // renderInboxTable(result.data);
-        return;
+        return result.data;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENTS ", error);
     }
@@ -54,6 +53,7 @@ export async function getArchivedDocumentsAPI(token) {
 
         // console.log(result.data);
         renderDocuments(result.data);
+        return result.data;
     } catch (error) {
         console.error("FAILED TO FETCH ARCHIVED DOCUMENTS ", error);
     }

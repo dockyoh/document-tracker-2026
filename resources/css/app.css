@@ -159,9 +159,11 @@ button {
 .column-name-container,
 .document-item {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr) 150px 200px 200px 150px 150px;
+    grid-template-columns: 150px minmax(0, 1fr) 150px 200px 200px 150px 150px;
     border-radius: var(--spacing-m);
     padding: var(--spacing-s);
+    gap: var(--spacing-s);
+    align-items: center;
 }
 
 .column-name-container {
@@ -192,4 +194,16 @@ button {
 
 .user-table-container {
     min-width: 480px;
+}
+
+.tracking-number {
+    transition: all 0.15s ease-in-out;
+    padding: 2px;
+    text-align: center;
+}
+
+.tracking-number:hover {
+    background-color: rgba(255, 0, 0, 0.5);
+    border-radius: var(--spacing-s);
+    color: white;
 }

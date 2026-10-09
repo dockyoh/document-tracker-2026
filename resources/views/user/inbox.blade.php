@@ -7,6 +7,7 @@
     @vite('resources/css/body.css')
     @vite('resources/css/header.css')
     @vite('resources/css/inbox.css')
+    @vite('resources/css/modal.css')
     @vite('resources/js/inbox.js')
     {{-- SECURITY GUARD VVV --}}
     <script>
@@ -50,7 +51,7 @@
             {{-- INBOX TEMPLATE --}}
             <template class="document-item-template">
                 <li class="document-item" role="row">
-                    <span class="tracking-number" role="cell"></span>
+                    <span class="tracking-number" role="cell" title="Activity Log"></span>
                     <span class="file-name" role="cell"></span>
                     <span class="status" role="cell"></span>
                     <span class="focal" role="cell"></span>
@@ -111,6 +112,23 @@
             <div class="button-container">
                 <button type="button" class="resubmit-btn inbox-modal-btn">Resubmit</button>
                 <button type="button" class="cancel-btn inbox-modal-btn">Cancel</button>
+            </div>
+       </dialog>
+       {{-- ACTIVITY LOG/DOCUMENT HISTORY MODAL --}}
+        <dialog class="activity-log-modal modal">
+            <div class="activity-log-modal-content">
+                <h2 class="modal-title">Document History</h2>
+                <h3 class="modal-document-title"></h3>
+                <ul class="template-timeline-container"></ul>
+                    <template class="template-timeline">
+                        <li class="timeline">
+                            <p class="timeline-date-time">October 7, 2026 3:41 PM</p>
+                            <p class="timeline-description">Reygin Susas uploaded the document</p>
+                        </li>
+                    </template>
+                <div class="button-container">
+                    <button class="ok-btn">OK</button>
+                </div>
             </div>
        </dialog>
     </main>

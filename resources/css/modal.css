@@ -1,0 +1,87 @@
+*,
+::before,
+::after {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    object-fit: cover;
+}
+
+:root {
+    --spacing-s: 5px;
+    --spacing-m: 10px;
+    --spacing-l: 15px;
+    --spacing-xl: 20px;
+    --spacing-xxl: 25px;
+    --spacing-xxxl: 30px;
+    --form-width: 50%;
+}
+
+/* ------------------------- */
+/*     ACTIVITY LOG MODAL    */
+/* ------------------------- */
+
+.activity-log-modal[open] {
+    width: 100%;
+    height: 100%;
+
+    max-width: none;
+    max-height: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: auto;
+    overflow: hidden;
+    border: none;
+}
+
+.activity-log-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-m);
+
+    width: 50%;
+    height: 60%;
+    min-height: 200px;
+
+    border: none;
+    border-radius: var(--spacing-m);
+    padding: var(--spacing-m);
+    background-color: white;
+}
+
+.activity-log-modal .ok-btn {
+    border: none;
+    background-color: lightgreen;
+    padding: var(--spacing-m) var(--spacing-xxxl);
+    font-size: 1rem;
+    border-radius: var(--spacing-m);
+    font-weight: bold;
+    transition: all 0.15s ease-in-out;
+}
+
+.activity-log-modal .ok-btn:hover {
+    background-color: black;
+    color: white;
+}
+
+.activity-log-modal .template-timeline-container {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: var(--spacing-m);
+    overflow-y: scroll;
+    gap: var(--spacing-l);
+}
+
+.activity-log-modal .timeline {
+    width: 90%;
+}

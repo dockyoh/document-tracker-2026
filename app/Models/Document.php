@@ -33,4 +33,9 @@ class Document extends Model
     {
         return $this->hasMany(Feedback::class);
     }
+
+    public function activities()
+    {
+        return $this->hasMany(DocumentActivity::class);
+    }
 }

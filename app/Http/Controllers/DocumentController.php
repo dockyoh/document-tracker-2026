@@ -51,6 +51,13 @@ class DocumentController extends Controller
             'uploader_id' => $request->user()->id,
             'focal_person_id' => $focalPerson?->id
         ]);
+
+        $document->activities()->create([
+            'user_id' => $request->user()->id,
+            'action' => 'upload',
+            'description' => $request->user()->name . ' uploaded the document and routed to reviewer ' . $focalPerson->name
+        ]);
+
         return new DocumentResource($document);
     }
 
@@ -76,8 +83,20 @@ class DocumentController extends Controller
         if (($validated["status"] ?? null) === "Pending") {
             $departmentHead = User::where("role", "department head")->firstOrFail();
             $validated["focal_person_id"] = $departmentHead->id;
+
+            $document->activities()->create([
+                'user_id' => $request->user()->id,
+                'action' => 'approved',
+                'description' => $request->user()->name . ' approved and routed to DH ' . $departmentHead->name
+            ]);
         } else if (($validated["status"] ?? null) === "Approved") {
             $validated["focal_person_id"] = null;
+
+            $document->activities()->create([
+                'user_id' => $request->user()->id,
+                'action' => 'approved',
+                'description' => $request->user()->name . ' approved the document'
+            ]);
         } else if (in_array($validated["status"] ?? null, ["Rejected", "Revise"])) {
             Feedback::create([
                 "message" => $validated["feedback"],
@@ -88,8 +107,20 @@ class DocumentController extends Controller
 
             if (($validated['status'] ?? null) === 'Rejected') {
                 $validated["focal_person_id"] = null;
+
+                $document->activities()->create([
+                    'user_id' => $request->user()->id,
+                    'action' => 'rejected',
+                    'description' => $request->user()->name . ' rejected the document. Feedback : ' . $validated['feedback']
+                ]);
             } else {
                 $validated["focal_person_id"] = $document->uploader_id;
+
+                $document->activities()->create([
+                    'user_id' => $request->user()->id,
+                    'action' => 'revise',
+                    'description' => $request->user()->name . ' requested revision. Feedback : ' . $validated['feedback']
+                ]);
             }
 
             unset($validated["feedback"]);
@@ -177,6 +208,8 @@ class DocumentController extends Controller
 
         $validated = $request->validated();
 
+        $reviewer = User::where('id', $validated['reviewer_id'])->first();
+
         $file = $request->file('document');
 
         $newFilePath = $file->store('documents', 'local');
@@ -190,10 +223,16 @@ class DocumentController extends Controller
             'focal_person_id' => $validated['reviewer_id']
         ]);
 
+        $document->activities()->create([
+            'user_id' => $request->user()->id,
+            'action' => 'resubmit',
+            'description' => $request->user()->name . ' resubmitted the document and routed to ' . $reviewer->name
+        ]);
+
         return new DocumentResource($document->fresh());
     }
 
-    public function completeArchived(string $id): DocumentResource
+    public function completeArchived(Request $request, string $id): DocumentResource
     {
         $document = Document::findOrFail($id);
 
@@ -202,9 +241,21 @@ class DocumentController extends Controller
                 'status' => 'Completed',
                 'archived_at' => now()
             ]);
+
+            $document->activities()->create([
+                'user_id' => $request->user()->id,
+                'action' => 'completed-archived',
+                'description' => $request->user()->name . ' marked the document as completed'
+            ]);
         } else if ($document->status === "Rejected") {
             $document->update([
                 'archived_at' => now()
+            ]);
+
+            $document->activities()->create([
+                'user_id' => $request->user()->id,
+                'action' => 'rejected-archived',
+                'description' => $request->user()->name . ' archived the document'
             ]);
         }
 
