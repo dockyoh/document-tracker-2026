@@ -7,7 +7,11 @@ import {
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getCurrentUser, getUsername, isAdmin } from "./auth.js";
-import { renderLogUser, renderFeedback } from "./dom.js";
+import {
+    renderLogUser,
+    renderFeedback,
+    renderDocumentActivity,
+} from "./dom.js";
 
 localStorage.removeItem("resubmitDoc");
 
@@ -16,6 +20,7 @@ const inboxModal = document.querySelector(".inbox-modal");
 const reviseModal = document.querySelector(".inbox-modal_revise");
 const feedbackModal = document.querySelector(".inbox-modal_preview-feedback");
 const reviseForm = document.querySelector(".revise-form");
+const activityLogModalEl = document.querySelector(".activity-log-modal");
 const token = localStorage.getItem("authToken");
 const user = getCurrentUser();
 let rejectedStatus = false;
@@ -48,7 +53,17 @@ templateContainerEl.addEventListener("click", async (e) => {
         const docIndex =
             e.target.closest(".document-item").dataset.documentIndex;
 
-        if (user.role !== "staff") {
+        // ACTIVITY LOG/DOCUMENT HISTORY
+        if (e.target.closest(`.tracking-number-${docId}`)) {
+            console.log(`activity log modal activated for doc id ${docId}`);
+            activityLogModalEl.showModal();
+            const docTitle = inboxDocuments[docIndex].original_name;
+            renderDocumentActivity(
+                inboxDocuments[docIndex].activity_log,
+                docTitle,
+            );
+            return;
+        } else if (user.role !== "staff") {
             const docStats = {
                 status: "Review",
             };
@@ -196,3 +211,13 @@ function showCloseModals() {
     inboxModal.close();
     reviseModal.showModal();
 }
+
+activityLogModalEl.addEventListener("click", (e) => {
+    if (e.target.closest(".ok-btn")) {
+        activityLogModalEl.close();
+    }
+
+    if (e.target === activityLogModalEl) {
+        activityLogModalEl.close();
+    }
+});

@@ -41,6 +41,17 @@ class DocumentResource extends JsonResource
                     "created_at" => $feedback->created_at->diffForHumans(),
                     "updated_at" => $feedback->updated_at->diffForHumans()
                 ];
+            }),
+            // ----------------------------------------------------------
+            // RETURN DOCUMENT ACTIVITY LOG
+            // ----------------------------------------------------------
+            'activity_log' => $this->activities->map(function ($activity) {
+                return [
+                    'date' => $activity->created_at->format('M j, Y'),
+                    'time' => $activity->created_at->format('g:i A'),
+                    'date_time' => $activity->created_at->format('M j, Y g:i A'),
+                    'description' => $activity->description
+                ];
             })
         ];
     }

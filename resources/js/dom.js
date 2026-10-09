@@ -60,11 +60,16 @@ export function renderLogUser(username) {
 }
 
 export function renderDocuments(documents) {
-    documents.forEach((document) => {
+    documents.forEach((document, index) => {
         console.log(document);
         const clone = documentTemplate.content.cloneNode(true);
 
         clone.querySelector(".document-item").dataset.documentId = document.id;
+        clone.querySelector(".document-item").dataset.documentIndex = index;
+
+        clone
+            .querySelector(".tracking-number")
+            .classList.add(`tracking-number-${document.id}`);
 
         clone.querySelector(".tracking-number").textContent =
             document.tracking_number;
@@ -116,6 +121,10 @@ export function renderInboxTable(datas) {
 
         clone.querySelector(".document-item").dataset.documentId = data.id;
         clone.querySelector(".document-item").dataset.documentIndex = index;
+
+        clone
+            .querySelector(".tracking-number")
+            .classList.add(`tracking-number-${data.id}`);
 
         clone.querySelector(".tracking-number").textContent =
             data.tracking_number;
@@ -177,4 +186,28 @@ export function renderFeedback(feedbackDatas, modalTitle) {
             }
         }
     });
+}
+
+export function renderDocumentActivity(activities, docTitle) {
+    const templateTimelineContainerEl = document.querySelector(
+        ".template-timeline-container",
+    );
+
+    templateTimelineContainerEl.innerHTML = "";
+
+    const fragment = document.createDocumentFragment();
+    const templateTimeline = document.querySelector(".template-timeline");
+
+    document.querySelector(".modal-document-title").textContent = docTitle;
+
+    activities.forEach((activity) => {
+        const clone = templateTimeline.content.cloneNode(true);
+        clone.querySelector(".timeline-date-time").textContent =
+            activity.date_time;
+        clone.querySelector(".timeline-description").textContent =
+            activity.description;
+
+        fragment.appendChild(clone);
+    });
+    templateTimelineContainerEl.appendChild(fragment);
 }
