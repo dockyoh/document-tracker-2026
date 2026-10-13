@@ -22,9 +22,32 @@ class DocumentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $documents = Document::with('uploader')->whereNull('archived_at')->get();
+        $search = $request->query('search');
+        $searchStatus = $request->query('status');
+        $searchFocal = $request->query('focal');
+        $searchAuthor = $request->query('author');
+
+        $documents = Document::with(['uploader', 'focalPerson'])->whereNull('archived_at')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('tracking_number', 'like', "%{$search}%")
+                        ->orWhere('title', 'like', "%{$search}%")
+                        ->orWhere('original_name', 'like', "%{$search}%");
+                });
+            })
+            ->when($searchStatus, function ($query, $searchStatus) {
+                $query->where('status', $searchStatus);
+            })
+            ->when($searchFocal, function ($query, $searchFocal) {
+                $query->where('focal_person_id', $searchFocal);
+            })
+            ->when($searchAuthor, function ($query, $searchAuthor) {
+                $query->where('uploader_id', $searchAuthor);
+            })
+            ->latest()
+            ->get();
 
         return DocumentResource::collection($documents);
     }

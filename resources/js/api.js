@@ -7,15 +7,31 @@ import {
 } from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
-export async function getDocumentsAPI(token) {
+export async function getDocumentsAPI(
+    token,
+    searchInput = "",
+    searchStatus = "",
+    searchFocal = "",
+    searchAuthor = "",
+) {
     try {
-        const response = await fetch("/api/documents", {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
+        const searchParams = new URLSearchParams({
+            search: searchInput,
+            status: searchStatus,
+            focal: searchFocal,
+            author: searchAuthor,
         });
+
+        const response = await fetch(
+            `/api/documents?${searchParams.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
 
         const result = await response.json();
 
@@ -139,6 +155,7 @@ export async function loginAPI(formData) {
 
         localStorage.setItem("authToken", loginuser.token);
         localStorage.setItem("user", JSON.stringify(loginuser.user));
+        localStorage.setItem("users", JSON.stringify(loginuser.users));
 
         window.location.href = "/";
     } catch (error) {

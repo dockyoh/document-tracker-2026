@@ -43,6 +43,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $field['email'])->first();
+        $users = User::get(['id', 'name']);
 
         if ($user->status === 'approved') {
             if (!$user || !Hash::check($field['password'], $user->password)) {
@@ -60,6 +61,7 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
+            'users' => $users,
             'token' => $token
         ], 200);
     }
