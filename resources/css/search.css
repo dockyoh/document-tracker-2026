@@ -1,0 +1,72 @@
+*,
+::before,
+::after {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    object-fit: cover;
+}
+
+:root {
+    --spacing-s: 5px;
+    --spacing-m: 10px;
+    --spacing-l: 15px;
+    --spacing-xl: 20px;
+    --spacing-xxl: 25px;
+    --spacing-xxxl: 30px;
+    --form-width: 50%;
+}
+
+.search-filter {
+    /* background-color: rgba(211, 211, 211, 0.5); */
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0px var(--spacing-m);
+    /* margin-bottom: var(--spacing-s); */
+    max-width: 98%;
+    margin: 0 auto var(--spacing-s) auto;
+    border-radius: var(--spacing-m);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid gray;
+}
+
+#search-input {
+    padding: var(--spacing-s);
+    width: 250px;
+    border: none;
+    border-radius: var(--spacing-s);
+    font-size: 1rem;
+}
+
+#search-input:focus {
+    /* border: none; */
+    outline: none;
+}
+
+.filter-container {
+    border-left: 2px solid gray;
+    padding-left: var(--spacing-m);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: var(--spacing-s);
+    gap: var(--spacing-m);
+    color: white;
+}
+
+select {
+    border: none;
+}
+
+select:focus {
+    outline: none;
+}
+
+.search-btn {
+    padding: var(--spacing-s);
+    border-radius: var(--spacing-s);
+    border: none;
+    background-color: greenyellow;
+}

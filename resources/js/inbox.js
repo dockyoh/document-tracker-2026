@@ -70,15 +70,20 @@ templateContainerEl.addEventListener("click", async (e) => {
             updateDocStatsAPI(token, docId, docStats);
             inboxModal.showModal();
         } else {
-            renderFeedback(inboxDocuments[docIndex].feedback);
-
             const feedback = inboxDocuments[docIndex].feedback;
+            const feedbackAction =
+                inboxDocuments[docIndex].feedback[feedback.length - 1].action;
 
             if (feedback.length > 0) {
                 reviewerId =
                     inboxDocuments[docIndex].feedback[feedback.length - 1]
                         .reviewer_id;
                 feedbackModal.showModal();
+                renderFeedback(inboxDocuments[docIndex].feedback);
+
+                if (feedbackAction === "Rejected") {
+                    return;
+                }
             }
         }
     }
@@ -92,9 +97,9 @@ templateContainerEl.addEventListener("click", async (e) => {
             window.location.href = "/user/inbox";
         }
         return;
-    } else {
-        await documentPreviewAPI(token, docId);
     }
+
+    await documentPreviewAPI(token, docId);
 });
 
 // UPDATE THE DOCUMENT STATUS AND FOCAL ID

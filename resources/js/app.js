@@ -1,21 +1,24 @@
-import { getDocumentsAPI, logoutAPI } from "./api.js";
+import { getDocumentsAPI, getUsersAPI, logoutAPI } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
-import { renderLogUser, renderDocumentActivity } from "./dom.js";
+import {
+    renderLogUser,
+    renderDocumentActivity,
+    renderFilterFocal,
+    renderFilterAuthor,
+} from "./dom.js";
 
 localStorage.removeItem("resubmitDoc");
 
 const token = localStorage.getItem("authToken");
+const users = localStorage.getItem("users");
+
+// console.log(users);
 
 const templateContainerEl = document.querySelector(".template-container");
 const activityLogModalEl = document.querySelector(".activity-log-modal");
+const searchFormEl = document.querySelector(".search-filter");
 let documentsData;
-
-// init();
-
-// async function init() {
-
-// }
 
 if (isAdmin()) {
     renderPrivatePage();
@@ -27,6 +30,8 @@ getDocuments();
 
 async function getDocuments() {
     documentsData = await getDocumentsAPI(token);
+    renderFilterFocal(users);
+    renderFilterAuthor(users);
 }
 
 templateContainerEl.addEventListener("click", async (e) => {
@@ -50,6 +55,25 @@ activityLogModalEl.addEventListener("click", (e) => {
     if (e.target === activityLogModalEl) {
         activityLogModalEl.close();
     }
+});
+
+searchFormEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(searchFormEl);
+
+    const searchValue = formData.get("search-input");
+    const statusValue = formData.get("status");
+    const focalValue = formData.get("focal");
+    const authorValue = formData.get("author");
+
+    await getDocumentsAPI(
+        token,
+        searchValue,
+        statusValue,
+        focalValue,
+        authorValue,
+    );
 });
 
 document

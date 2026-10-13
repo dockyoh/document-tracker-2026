@@ -60,6 +60,8 @@ export function renderLogUser(username) {
 }
 
 export function renderDocuments(documents) {
+    templateContainer.innerHTML = "";
+
     documents.forEach((document, index) => {
         console.log(document);
         const clone = documentTemplate.content.cloneNode(true);
@@ -182,8 +184,10 @@ export function renderFeedback(feedbackDatas, modalTitle) {
             if (resubmitBtnEl) {
                 resubmitBtnEl.textContent = "Archived";
                 resubmitBtnEl.classList.add("archived-btn");
-                resubmitBtnEl.classList.remove("resubmit-btn");
             }
+        } else {
+            resubmitBtnEl.textContent = "Resubmit";
+            resubmitBtnEl.classList.remove("archived-btn");
         }
     });
 }
@@ -210,4 +214,48 @@ export function renderDocumentActivity(activities, docTitle) {
         fragment.appendChild(clone);
     });
     templateTimelineContainerEl.appendChild(fragment);
+}
+
+export function renderFilterFocal(usersData) {
+    const focals = JSON.parse(usersData);
+    const templateContainerEl = document.querySelector(
+        ".focal-template-container",
+    );
+    const template = document.querySelector(".focal-template");
+    const fragment = document.createDocumentFragment();
+
+    console.log(focals);
+
+    focals.forEach((focal) => {
+        const clone = template.content.cloneNode(true);
+
+        clone.querySelector("option").value = focal.id;
+        clone.querySelector("option").textContent = focal.name;
+
+        fragment.appendChild(clone);
+    });
+
+    templateContainerEl.appendChild(fragment);
+}
+
+export function renderFilterAuthor(usersData) {
+    const authors = JSON.parse(usersData);
+    const templateContainerEl = document.querySelector(
+        ".author-template-container",
+    );
+    const template = document.querySelector(".author-template");
+    const fragment = document.createDocumentFragment();
+
+    console.log(authors);
+
+    authors.forEach((author) => {
+        const clone = template.content.cloneNode(true);
+
+        clone.querySelector("option").value = author.id;
+        clone.querySelector("option").textContent = author.name;
+
+        fragment.appendChild(clone);
+    });
+
+    templateContainerEl.appendChild(fragment);
 }
