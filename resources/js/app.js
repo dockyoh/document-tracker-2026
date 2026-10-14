@@ -1,4 +1,4 @@
-import { getDocumentsAPI, getUsersAPI, logoutAPI } from "./api.js";
+import { getDocumentsAPI, getNotificationCountAPI, logoutAPI } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
 import {
@@ -12,9 +12,6 @@ localStorage.removeItem("resubmitDoc");
 
 const token = localStorage.getItem("authToken");
 const users = localStorage.getItem("users");
-
-// console.log(users);
-
 const templateContainerEl = document.querySelector(".template-container");
 const activityLogModalEl = document.querySelector(".activity-log-modal");
 const searchFormEl = document.querySelector(".search-filter");
@@ -32,6 +29,7 @@ async function getDocuments() {
     documentsData = await getDocumentsAPI(token);
     renderFilterFocal(users);
     renderFilterAuthor(users);
+    await getNotificationCountAPI(token);
 }
 
 templateContainerEl.addEventListener("click", async (e) => {

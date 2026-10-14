@@ -205,6 +205,7 @@ export function renderDocumentActivity(activities, docTitle) {
     document.querySelector(".modal-document-title").textContent = docTitle;
 
     activities.forEach((activity) => {
+        console.log(activity.date_time);
         const clone = templateTimeline.content.cloneNode(true);
         clone.querySelector(".timeline-date-time").textContent =
             activity.date_time;
@@ -258,4 +259,19 @@ export function renderFilterAuthor(usersData) {
     });
 
     templateContainerEl.appendChild(fragment);
+}
+
+export function renderInboxBadge(inboxCount) {
+    const inboxBadgeEl = document.querySelector(".inbox-badge");
+    if (inboxCount.pendingCount > 0) {
+        inboxBadgeEl.style.setProperty(
+            "--badge-number",
+            `"${inboxCount.pendingCount}"`,
+        );
+    } else if (inboxCount.staffInboxCount) {
+        inboxBadgeEl.style.setProperty(
+            "--badge-number",
+            `"${inboxCount.staffInboxCount}"`,
+        );
+    }
 }

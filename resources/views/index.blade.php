@@ -9,6 +9,7 @@
     @vite('resources/css/app.css')
     @vite('resources/css/modal.css')
     @vite('resources/css/search.css')
+    @vite('resources/css/notification-badge.css')
     @vite('resources/js/app.js')
     {{-- SECURITY GUARD VVV --}}
     <script>
@@ -26,7 +27,7 @@
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="user/inbox">Inbox</a></li>
+                <li><a href="/user/inbox" class="inbox-badge">Inbox</a></li>
                 <li><a href="document/upload">Upload</a></li>
                 <li class="manage-role-link"><a href="user/view">Manage User</a></li>
                 <li><a href="/document/archived">Archived</a></li>
@@ -39,7 +40,7 @@
     </header>
     <main>
        <form action="" method="post" class="search-filter">
-            <input type="text" name="search-input" id="search-input" placeholder="Search by title/tracking number">
+            <input type="text" name="search-input" id="search-input" placeholder="Search Title or Tracking number">
             <div class="filter-container">
                 <p>Filter by:</p>
                 <select name="status" id="status">
@@ -98,8 +99,8 @@
                 <ul class="template-timeline-container"></ul>
                     <template class="template-timeline">
                         <li class="timeline">
-                            <p class="timeline-date-time">October 7, 2026 3:41 PM</p>
-                            <p class="timeline-description">Reygin Susas uploaded the document</p>
+                            <p class="timeline-date-time"></p>
+                            <p class="timeline-description"></p>
                         </li>
                     </template>
                 <div class="button-container">

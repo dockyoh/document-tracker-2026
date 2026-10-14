@@ -4,6 +4,7 @@ import {
     documentPreviewAPI,
     updateDocStatsAPI,
     completeArchivedAPI,
+    getNotificationCountAPI,
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getCurrentUser, getUsername, isAdmin } from "./auth.js";
@@ -38,6 +39,7 @@ getDocuments();
 
 async function getDocuments() {
     inboxDocuments = await getInboxDocsAPI(token);
+    await getNotificationCountAPI(token);
 }
 
 document

@@ -1,0 +1,38 @@
+*,
+::before,
+::after {
+    padding: 0px;
+    margin: 0px;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+:root {
+    --spacing-s: 5px;
+    --spacing-m: 10px;
+    --spacing-l: 15px;
+    --spacing-xl: 20px;
+    --spacing-xxl: 25px;
+    --spacing-xxxl: 30px;
+    --spacing-xxxl: 30px;
+}
+
+.inbox-badge {
+    position: relative;
+}
+
+.inbox-badge::before {
+    content: var(--badge-number);
+    font-size: 0.7rem;
+    color: white;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

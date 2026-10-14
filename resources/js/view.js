@@ -3,6 +3,7 @@ import {
     updateUserRoleAPI,
     logoutAPI,
     updateUserStatusAPI,
+    getNotificationCountAPI,
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
@@ -26,6 +27,7 @@ renderLogUser(getUsername());
 
 async function getUsers() {
     await getUsersAPI(token);
+    await getNotificationCountAPI(token);
 }
 
 templateContainerUser.addEventListener("change", async (e) => {

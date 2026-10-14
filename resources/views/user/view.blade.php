@@ -8,6 +8,7 @@
     @vite('resources/css/header.css')
     @vite('resources/css/app.css')
     @vite('resources/css/view.css')
+    @vite('resources/css/notification-badge.css')
     @vite('resources/js/view.js')
     <script>
         const token = localStorage.getItem('authToken');
@@ -21,7 +22,7 @@
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/user/inbox">Inbox</a></li>
+                <li><a href="/user/inbox" class="inbox-badge">Inbox</a></li>
                 <li><a href="/document/upload">Upload</a></li>
                 <li class="manage-role-link"><a href="/user/view">Manage User</a></li>
                 <li><a href="/document/archived">Archived</a></li>
