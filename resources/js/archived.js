@@ -1,5 +1,6 @@
 import {
     getArchivedDocumentsAPI,
+    getNotificationCountAPI,
     logoutAPI,
     previewArchivedAPI,
 } from "./api.js";
@@ -27,6 +28,7 @@ getDocuments();
 
 async function getDocuments() {
     archivedData = await getArchivedDocumentsAPI(token);
+    await getNotificationCountAPI(token);
 }
 
 document

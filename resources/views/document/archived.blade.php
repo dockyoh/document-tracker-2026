@@ -8,6 +8,7 @@
     @vite('resources/css/header.css')
     @vite('resources/css/app.css')
     @vite('resources/css/modal.css')
+    @vite('resources/css/notification-badge.css')
     @vite('resources/js/archived.js')
     {{-- SECURITY GUARD VVV --}}
     <script>
@@ -25,7 +26,7 @@
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/user/inbox">Inbox</a></li>
+                <li><a href="/user/inbox" class="inbox-badge">Inbox</a></li>
                 <li><a href="/document/upload">Upload</a></li>
                 <li class="manage-role-link"><a href="/user/view">Manage User</a></li>
                 <li><a href="/document/archived">Archived</a></li>
@@ -68,8 +69,8 @@
                 <ul class="template-timeline-container"></ul>
                     <template class="template-timeline">
                         <li class="timeline">
-                            <p class="timeline-date-time">October 7, 2026 3:41 PM</p>
-                            <p class="timeline-description">Reygin Susas uploaded the document</p>
+                            <p class="timeline-date-time"></p>
+                            <p class="timeline-description"></p>
                         </li>
                     </template>
                 <div class="button-container">

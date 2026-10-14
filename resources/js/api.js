@@ -4,6 +4,7 @@ import {
     renderUsers,
     renderDocuments,
     renderInboxTable,
+    renderInboxBadge,
 } from "./dom.js";
 import { renderAuthErrors } from "./auth-dom.js";
 
@@ -435,5 +436,28 @@ export async function completeArchivedAPI(token, id) {
         return result;
     } catch (error) {
         console.error("FAILED TO FETCH COMPLETE API".error);
+    }
+}
+
+export async function getNotificationCountAPI(token) {
+    try {
+        const response = await fetch("/api/inbox/inbox-notification", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ERROR STATUS : ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        console.log(result);
+        renderInboxBadge(result);
+    } catch (error) {
+        console.error("FAILED TO FETCH PENDING COUNT API ", error);
     }
 }

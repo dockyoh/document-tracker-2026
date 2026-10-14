@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Models\Document;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class InboxController extends Controller
 {
@@ -21,6 +22,7 @@ class InboxController extends Controller
             $documents = Document::with(['uploader', 'focalPerson', 'feedback.user'])
                 ->where('uploader_id', $user->id)
                 ->where("archived_at", null)
+                ->where('status', '!=', 'Pending')
                 ->latest()
                 ->get();
         } else {
@@ -65,5 +67,22 @@ class InboxController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function inboxNotification(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $pendingCount = Document::where('focal_person_id', $user->id)->where('status', 'Pending')->count();
+
+        $staffInboxCount = Document::where('uploader_id', $user->id)
+            ->whereNull('archived_at')
+            ->whereIn('status', ['Revise', 'Approved', 'Rejected'])
+            ->count();
+
+        return response()->json([
+            'pendingCount' => $pendingCount,
+            'staffInboxCount' => $staffInboxCount
+        ]);
     }
 }

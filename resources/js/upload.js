@@ -3,6 +3,7 @@ import {
     updateDocStatsAPI,
     uploadAPI,
     resubmitDocAPI,
+    getNotificationCountAPI,
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin } from "./auth.js";
@@ -38,6 +39,8 @@ if (isAdmin()) {
 renderLogUser(getUsername());
 
 getResubmitDoc();
+
+inboxNotificationBadge();
 
 console.log(resubmitDoc);
 
@@ -103,4 +106,8 @@ document
 
 function getResubmitDoc() {
     resubmitDoc = JSON.parse(localStorage.getItem("resubmitDoc"));
+}
+
+async function inboxNotificationBadge() {
+    await getNotificationCountAPI(token);
 }
