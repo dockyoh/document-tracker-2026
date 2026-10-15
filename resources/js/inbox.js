@@ -101,7 +101,8 @@ templateContainerEl.addEventListener("click", async (e) => {
         return;
     }
 
-    await documentPreviewAPI(token, docId);
+    const previewURL = await documentPreviewAPI(token, docId);
+    storeBlobUrls("blobUrls", previewURL);
 });
 
 // UPDATE THE DOCUMENT STATUS AND FOCAL ID
@@ -228,3 +229,11 @@ activityLogModalEl.addEventListener("click", (e) => {
         activityLogModalEl.close();
     }
 });
+
+function storeBlobUrls(key, newUrl) {
+    let activeBlobUrls = JSON.parse(localStorage.getItem(key)) || [];
+
+    activeBlobUrls.push(newUrl);
+
+    localStorage.setItem(key, JSON.stringify(activeBlobUrls));
+}

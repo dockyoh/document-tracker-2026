@@ -163,15 +163,18 @@ class DocumentController extends Controller
     }
 
     // PREVIEW DOCUMENT API
-    public function preview(Document $document): StreamedResponse
+    public function preview(Document $document, Request $request): StreamedResponse
     {
+        $user = $request->user();
 
-        // dd([
-        //     'document' => $document->toArray(),
-        //     'attributes' => $document->getAttributes(),
-        //     'file_path_property' => $document->file_path,
-        //     'id' => $document->id,
-        // ]);
+        $isDepartmentHead = $user->role === 'department head';
+        $isReviewer = $user->role === 'reviewer';
+        $isAdmin = $user->role === 'admin';
+        $isFocal = $document->uploader_id === $user->id || $document->focal_person_id === $user->id;
+
+        if (!$isDepartmentHead && !$isReviewer && !$isAdmin && !$isFocal) {
+            abort(403, 'UNAUTHORIZED ACCESS');
+        }
 
         if (!$document->file_path) {
             abort(404, 'DOCUMENT HAS NO FILE PATH');
