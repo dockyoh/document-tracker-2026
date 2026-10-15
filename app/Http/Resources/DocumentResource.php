@@ -46,10 +46,13 @@ class DocumentResource extends JsonResource
             // RETURN DOCUMENT ACTIVITY LOG
             // ----------------------------------------------------------
             'activity_log' => $this->activities->map(function ($activity) {
+
+                $createdAt = $activity->created_at->setTimezone('Asia/Manila');
+
                 return [
-                    'date' => $activity->created_at->format('M j, Y'),
-                    'time' => $activity->created_at->format('g:i A'),
-                    'date_time' => $activity->created_at->format('M j, Y g:i A'),
+                    'date' => $createdAt->format('M j, Y'),
+                    'time' => $createdAt->format('g:i A'),
+                    'date_time' => $createdAt->format('M j, Y g:i A'),
                     'description' => $activity->description
                 ];
             })
