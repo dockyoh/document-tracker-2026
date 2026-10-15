@@ -48,7 +48,8 @@ templateContainerArchivedEl.addEventListener("click", async (e) => {
         renderDocumentActivity(archivedData[docIndex].activity_log, docTitle);
         return;
     } else if (e.target.closest(".document-item")) {
-        await previewArchivedAPI(token, docId);
+        const previewUrl = await previewArchivedAPI(token, docId);
+        storeBlobUrls("blobUrls", previewUrl);
     }
 });
 
@@ -61,3 +62,11 @@ activityLogModalEl.addEventListener("click", (e) => {
         activityLogModalEl.close();
     }
 });
+
+function storeBlobUrls(key, newUrl) {
+    let activeBlobUrls = JSON.parse(localStorage.getItem(key)) || [];
+
+    activeBlobUrls.push(newUrl);
+
+    localStorage.setItem(key, JSON.stringify(activeBlobUrls));
+}

@@ -165,6 +165,8 @@ export async function loginAPI(formData) {
 }
 
 export async function logoutAPI(token) {
+    const activeBlobUrls = JSON.parse(localStorage.getItem("blobUrls"));
+
     if (!token) {
         localStorage.clear();
         window.location.href = "/user/login";
@@ -184,6 +186,10 @@ export async function logoutAPI(token) {
         if (!response.ok) {
             throw new Error(`HTTP status error ${response.status}`);
         }
+
+        activeBlobUrls?.forEach((url) => {
+            URL.revokeObjectURL(url);
+        });
 
         localStorage.clear();
         window.location.href = "/user/login";
@@ -328,7 +334,7 @@ export async function documentPreviewAPI(token, id) {
             URL.revokeObjectURL(previewURL);
         }, 60000);
 
-        return true;
+        return previewURL;
     } catch (error) {
         console.error("FAILED TO FETCH DOCUMENT PREVIEW ", error);
     }
@@ -361,6 +367,8 @@ export async function previewArchivedAPI(token, docId) {
         setTimeout(() => {
             URL.revokeObjectURL(previewURL);
         }, 60000);
+
+        return previewURL;
     } catch (error) {
         console.error("FAILED TO FETCH PREVIEW ARCHIVED ", error);
     }
