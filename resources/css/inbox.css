@@ -186,7 +186,7 @@ button {
     overflow-y: scroll;
 }
 
-.inbox-modal_preview-feedback .resubmit-btn {
+.inbox-modal_preview-feedback .resubmit-archived-btn {
     width: 20%;
     background-color: lightgreen;
 }

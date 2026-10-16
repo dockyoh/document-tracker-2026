@@ -169,7 +169,9 @@ export function renderFeedback(feedbackDatas, modalTitle) {
     const feedbackFromEl = document.querySelector(".feedback-from");
     const feedbackActionEl = document.querySelector(".feedback-action");
     const feedbackMessageEl = document.querySelector(".feedback-message");
-    const resubmitBtnEl = document.querySelector(".resubmit-btn");
+    const resubmitArchivedBtnEl = document.querySelector(
+        ".resubmit-archived-btn",
+    );
 
     feedbackFromEl.textContent = "";
     feedbackActionEl.textContent = "";
@@ -181,13 +183,9 @@ export function renderFeedback(feedbackDatas, modalTitle) {
         feedbackMessageEl.textContent = feedback.message;
 
         if (feedback.action === "Rejected") {
-            if (resubmitBtnEl) {
-                resubmitBtnEl.textContent = "Archived";
-                resubmitBtnEl.classList.add("archived-btn");
-            }
+            resubmitArchivedBtnEl.textContent = "Archived";
         } else {
-            resubmitBtnEl.textContent = "Resubmit";
-            resubmitBtnEl.classList.remove("archived-btn");
+            resubmitArchivedBtnEl.textContent = "Resubmit";
         }
     });
 }

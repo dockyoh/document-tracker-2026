@@ -29,6 +29,7 @@ let inboxDocuments = null;
 let docStats = null;
 let docId = null;
 let reviewerId = null;
+let feedbackAction = null;
 
 if (isAdmin()) {
     renderPrivatePage();
@@ -73,19 +74,24 @@ templateContainerEl.addEventListener("click", async (e) => {
             inboxModal.showModal();
         } else {
             const feedback = inboxDocuments[docIndex].feedback;
-            const feedbackAction =
-                inboxDocuments[docIndex].feedback[feedback.length - 1].action;
+            console.log(feedback.length);
 
             if (feedback.length > 0) {
+                feedbackAction =
+                    inboxDocuments[docIndex].feedback[feedback.length - 1]
+                        .action;
                 reviewerId =
                     inboxDocuments[docIndex].feedback[feedback.length - 1]
                         .reviewer_id;
+
                 feedbackModal.showModal();
                 renderFeedback(inboxDocuments[docIndex].feedback);
 
                 if (feedbackAction === "Rejected") {
                     return;
                 }
+            } else {
+                return;
             }
         }
     }
@@ -155,28 +161,29 @@ feedbackModal.addEventListener("click", async (e) => {
         return;
     }
 
-    if (e.target.closest(".resubmit-btn")) {
-        const resubmitDoc = {
-            id: docId,
-            reviewerId: reviewerId,
-        };
+    if (e.target.closest(".resubmit-archived-btn")) {
+        if (feedbackAction === "Rejected") {
+            console.log("ARCHIVED BUTTON ACTIVATED");
 
-        localStorage.setItem("resubmitDoc", JSON.stringify(resubmitDoc));
+            const archived = await completeArchivedAPI(token, docId);
 
-        window.location.href = "/document/upload";
-        feedbackModal.close();
-        return;
-    }
+            if (archived) {
+                window.location.href = "/user/inbox";
+            }
+            return;
+        } else {
+            console.log("RESUBMIT BUTTON ACTIVATED");
+            const resubmitDoc = {
+                id: docId,
+                reviewerId: reviewerId,
+            };
 
-    if (e.target.closest(".archived-btn")) {
-        console.log("ARCHIVED BUTTON ACTIVATED");
+            localStorage.setItem("resubmitDoc", JSON.stringify(resubmitDoc));
 
-        const archived = await completeArchivedAPI(token, docId);
-
-        if (archived) {
-            window.location.href = "/user/inbox";
+            window.location.href = "/document/upload";
+            feedbackModal.close();
+            return;
         }
-        return;
     }
 });
 

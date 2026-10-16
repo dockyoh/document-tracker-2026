@@ -111,7 +111,7 @@
             </div>
             
             <div class="button-container">
-                <button type="button" class="resubmit-btn inbox-modal-btn"></button>
+                <button type="button" class="resubmit-archived-btn inbox-modal-btn"></button>
                 <button type="button" class="cancel-btn inbox-modal-btn">Cancel</button>
             </div>
        </dialog>
