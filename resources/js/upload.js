@@ -12,6 +12,7 @@ import {
     renderSelectedFile,
     resetFileInput,
     renderLogUser,
+    renderResubmitTitle,
 } from "./dom.js";
 
 let fileSelected = null;
@@ -106,6 +107,9 @@ document
 
 function getResubmitDoc() {
     resubmitDoc = JSON.parse(localStorage.getItem("resubmitDoc"));
+    if (resubmitDoc) {
+        renderResubmitTitle();
+    }
 }
 
 async function inboxNotificationBadge() {

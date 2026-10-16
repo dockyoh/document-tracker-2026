@@ -77,6 +77,12 @@ header .manage-role-link {
     min-width: 300px;
 }
 
+.resubmit-title {
+    /* color: #2492ff; */
+    /* color: black; */
+    font-weight: bold;
+}
+
 .logout-button {
     background-color: gray;
     color: white;

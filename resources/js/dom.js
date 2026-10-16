@@ -273,3 +273,9 @@ export function renderInboxBadge(inboxCount) {
         );
     }
 }
+
+export function renderResubmitTitle() {
+    const pageTitle = document.querySelector(".page-title");
+    pageTitle.textContent = "Resubmit Document";
+    pageTitle.classList.add("resubmit-title");
+}
