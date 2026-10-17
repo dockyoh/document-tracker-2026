@@ -89,13 +89,13 @@ button {
     margin: auto;
     background-color: white;
     border-radius: var(--spacing-m);
-    padding: var(--spacing-m);
+    padding: var(--spacing-xl);
 }
 
 .inbox-modal[open] {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: var(--spacing-xl);
 }

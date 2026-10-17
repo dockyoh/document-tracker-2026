@@ -12,6 +12,7 @@ import {
     renderLogUser,
     renderFeedback,
     renderDocumentActivity,
+    renderDocumentTitle,
 } from "./dom.js";
 
 localStorage.removeItem("resubmitDoc");
@@ -30,6 +31,7 @@ let docStats = null;
 let docId = null;
 let reviewerId = null;
 let feedbackAction = null;
+let docTitle = null;
 
 if (isAdmin()) {
     renderPrivatePage();
@@ -55,12 +57,13 @@ templateContainerEl.addEventListener("click", async (e) => {
         docId = e.target.closest(".document-item").dataset.documentId;
         const docIndex =
             e.target.closest(".document-item").dataset.documentIndex;
+        docTitle = inboxDocuments[docIndex].original_name;
 
         // ACTIVITY LOG/DOCUMENT HISTORY
         if (e.target.closest(`.tracking-number-${docId}`)) {
             console.log(`activity log modal activated for doc id ${docId}`);
             activityLogModalEl.showModal();
-            const docTitle = inboxDocuments[docIndex].original_name;
+
             renderDocumentActivity(
                 inboxDocuments[docIndex].activity_log,
                 docTitle,
@@ -72,6 +75,7 @@ templateContainerEl.addEventListener("click", async (e) => {
             };
             updateDocStatsAPI(token, docId, docStats);
             inboxModal.showModal();
+            renderDocumentTitle(docTitle);
         } else {
             const feedback = inboxDocuments[docIndex].feedback;
             console.log(feedback.length);
@@ -85,9 +89,18 @@ templateContainerEl.addEventListener("click", async (e) => {
                         .reviewer_id;
 
                 feedbackModal.showModal();
-                renderFeedback(inboxDocuments[docIndex].feedback);
+                renderFeedback(
+                    inboxDocuments[docIndex].feedback,
+                    "Revision Feedback",
+                    docTitle,
+                );
 
                 if (feedbackAction === "Rejected") {
+                    renderFeedback(
+                        inboxDocuments[docIndex].feedback,
+                        "Rejection Feedback",
+                        docTitle,
+                    );
                     return;
                 }
             } else {
@@ -132,13 +145,13 @@ inboxModal.addEventListener("click", async (e) => {
             };
         }
     } else if (e.target.closest(".revision-btn")) {
-        renderFeedback(inboxDocuments, "Revision");
         showCloseModals();
+        renderDocumentTitle(docTitle, "Request Revision");
         return;
     } else if (e.target.closest(".reject-btn")) {
         rejectedStatus = true;
-        renderFeedback(inboxDocuments, "Rejection");
         showCloseModals();
+        renderDocumentTitle(docTitle, "Request Rejection");
         return;
     }
     updateDocStats();

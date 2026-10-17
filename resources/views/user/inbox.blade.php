@@ -65,7 +65,7 @@
        {{-- INBOX MODAL --}}
        <dialog class="inbox-modal">
         <button type="button" class="close-btn">Close</button>
-            <h2 class="doc-title">Document title</h2>
+            <h2 class="modal-document-title">Document title</h2>
             <div class="button-container">
                 <button class="approve-btn inbox-modal-btn">Approve</button>
                 <button class="revision-btn inbox-modal-btn">Revise</button>
@@ -74,8 +74,8 @@
        </dialog>
        {{-- REVISE MODAL --}}
        <dialog class="inbox-modal_revise inbox-modal">
-        <h2 class="feedback-title">Request Revision</h2>
-        <h3>Document Title...</h3>
+        <h2 class="revise-reject-modal-title">Request Revision</h2>
+        <h3 class="revise-document-title">Document Title...</h3>
         <form action="" method="post" class="revise-form">
             <label for="feedback-message">Feedback:</label>
             <textarea 
@@ -83,7 +83,7 @@
                 id="feedback-message" 
                 cols="50" 
                 rows="10" 
-                placeholder="Explain what the authors need to revise." 
+                placeholder="Explain what the authors need to revise or reject." 
                 required></textarea>
             <div class="button-container">
                 <button type="submit" class="feedback-btn inbox-modal-btn">Send Feedback</button>
@@ -93,7 +93,8 @@
        </dialog>
        {{-- PREVIEW FEEDBACK MODAL --}}
        <dialog class="inbox-modal_preview-feedback inbox-modal">
-            <h2>Feedback</h2>
+            <h2 class="preview-feedback-modal-title">Feedback</h2>
+            <h3 class="preview-feedback-document-title">Document title</h3>
             
             <div class="from-wrapper wrapper">
                 <h3>From:</h3>

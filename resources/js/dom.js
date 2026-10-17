@@ -162,9 +162,12 @@ function renderCompleteButton(clone, data) {
     span.replaceWith(buttonEl);
 }
 
-export function renderFeedback(feedbackDatas, modalTitle) {
-    document.querySelector(".feedback-title").textContent =
-        `Request ${modalTitle}`;
+export function renderFeedback(feedbackDatas, feedbackTitle, docTitle) {
+    document.querySelector(".preview-feedback-modal-title").textContent =
+        feedbackTitle;
+
+    document.querySelector(".preview-feedback-document-title").textContent =
+        docTitle;
 
     const feedbackFromEl = document.querySelector(".feedback-from");
     const feedbackActionEl = document.querySelector(".feedback-action");
@@ -278,4 +281,14 @@ export function renderResubmitTitle() {
     const pageTitle = document.querySelector(".page-title");
     pageTitle.textContent = "Resubmit Document";
     pageTitle.classList.add("resubmit-title");
+}
+
+export function renderDocumentTitle(docTitle, modalTitle) {
+    const modalDocTitle = document.querySelector(".modal-document-title");
+    const ReviseTitle = document.querySelector(".revise-document-title");
+    const modalTitleEl = document.querySelector(".revise-reject-modal-title");
+    modalDocTitle.textContent = docTitle;
+    ReviseTitle.textContent = docTitle;
+    modalTitleEl.textContent = modalTitle;
+    console.log(docTitle);
 }

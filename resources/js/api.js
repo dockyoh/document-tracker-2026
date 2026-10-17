@@ -353,9 +353,10 @@ export async function previewArchivedAPI(token, docId) {
             },
         );
 
+        console.log(response);
+
         if (!response.ok) {
             throw new Error(`STATUS ${response.status}`);
-            // throw new Error(response.status);
         }
 
         const result = await response.blob();
