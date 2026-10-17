@@ -21,11 +21,16 @@
     </header>
     <main>
         <form action="" method="post" class="login-form">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="sreygin@gmail.com" required>
-
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required>
+            <div class="input-container">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="sreygin@gmail.com" required>
+            </div>
+            
+            <div class="input-container">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            
 
             <button type="submit" class="login-btn">Login</button>
         </form>

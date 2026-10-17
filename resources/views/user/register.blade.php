@@ -21,17 +21,25 @@
     </header>
     <main>
         <form action="" method="post" class="signup-form">
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" placeholder="Reygin Susas" required>
-
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="sreygin@gmail.com" required>
-
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required>
-
-            <label for="password_confirmation">Confirm Password:</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" required>
+            <div class="input-container">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" id="name" placeholder="Reygin Susas" required>
+            </div>
+            
+            <div class="input-container">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="sreygin@gmail.com" required>
+            </div>
+            
+            <div class="input-container">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            
+            <div class="input-container">
+                <label for="password_confirmation">Confirm Password</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" required>
+            </div>
 
             <button type="submit" class="register-btn">Register</button>
         </form>

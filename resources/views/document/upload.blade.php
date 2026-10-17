@@ -44,7 +44,7 @@
             <label for="file-input" class="upload-label drop-zone">
                 <img src="/images/upload.png" alt="upload icon" class="upload-icon">
                 <span class="browse-btn">Browse</span>
-                <p class="upload-guide">Drop a file here</p>
+                {{-- <p class="upload-guide">Drop a file here</p> --}}
                 <small class="upload-guide"><span class="required-sign">*</span>File supported: .pdf, .docx, .doc, .txt</small>
                 <div class="template-container"></div>
                 {{-- FILE PREVIEW --}}
