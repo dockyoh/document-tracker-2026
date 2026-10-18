@@ -37,6 +37,7 @@
         </div>
     </header>
     <main>
+         <p class="upload-error-message"></p>
         {{-- UPLOAD FORM --}}
         <form action="" method="post" class="upload-form" enctype="multipart/form-data">
             <input type="file" name="file_input" id="file-input" accept=".pdf, docx, doc, .txt" hidden>

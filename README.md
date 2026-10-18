@@ -1,58 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Document Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based document management and tracking system that helps users submit documents, manage reviews, track feedback, and follow a document through its approval workflow.
 
-## About Laravel
+## Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The Document Tracker is a web application designed to organize document submissions and make the review and approval process easier to monitor. It provides role-based access, document routing, feedback, revision and resubmission, activity history, and document archiving.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project was developed as a portfolio project to demonstrate my skills in Laravel, PHP, database design, and web application development.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+- **Authentication** — User registration, login, and logout.
+- **Admin approval** — Administrators can review and approve user registrations.
+- **Role management** — Administrators can assign authorized user roles.
+- **Document submission** — Users can upload documents and view their document information.
+- **Inbox** — Users can see documents requiring their attention.
+- **Document review** — Reviewers can approve documents, request revisions, or reject submissions.
+- **Feedback** — Authors can read feedback from reviewers.
+- **Resubmission** — Authors can correct documents and resubmit them for review.
+- **Automatic document routing** — Documents are routed to the appropriate person according to the workflow.
+- **Dashboard** — Displays document metadata and status information.
+- **Activity/history log** — Tracks important actions performed on a document.
+- **Authorization** — Restricts document actions and file access according to user permissions.
+- **Search and filtering** — Helps users find documents by keywords and status.
+- **Completion and archiving** — Supports the completion and archiving of documents.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Document Workflow
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The general workflow is:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+1. An author uploads and submits a document.
+2. The document is routed to the reviewer.
+3. The reviewer approves the document, requests revisions, or rejects it.
+4. If revisions are requested, the author updates and resubmits the document.
+5. Approved documents proceed to the department head for final approval.
+6. The author completes approved documents according to the application's workflow.
+7. Completed or rejected documents can be archived.
+8. The activity history records important workflow events.
 
-## Agentic Development
+## User Roles
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- **Administrator** — Manages user approval and role assignments.
+- **Author/Uploader** — Submits documents, reads feedback, revises documents, and resubmits them.
+- **Reviewer** — Reviews submitted documents and takes the appropriate review action.
+- **Department Head** — Handles the next approval stage and final approval.
+
+Access to document content and actions depends on the user's permissions.
+
+## Technology Stack
+
+- **Backend:** PHP, Laravel
+- **Database:** MySQL / MariaDB
+- **Frontend:** HTML, CSS, JavaScript
+- **Development environment:** Docker, Laravel Sail
+- **Version control:** Git, GitHub
+
+_Update this list to match the exact technologies and versions used in the project._
+
+## Screenshots
+
+Add screenshots of the main application pages here.
+
+| Page             | Screenshot                              |
+| ---------------- | --------------------------------------- |
+| Dashboard        | `docs/screenshots/dashboard.png`        |
+| Document Inbox   | `docs/screenshots/inbox.png`            |
+| Document Details | `docs/screenshots/document-details.png` |
+| Activity History | `docs/screenshots/activity-history.png` |
+| Archive          | `docs/screenshots/archive.png`          |
+
+## Installation and Setup
+
+### Requirements
+
+- PHP version compatible with the project
+- Composer
+- Docker Desktop or Docker Engine
+- Node.js and npm, if required by the frontend build
+
+### 1. Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd <YOUR_PROJECT_DIRECTORY>
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Live Demo
 
-## Contributing
+**Demo URL:** <YOUR_LIVE_DEMO_URL>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Project Goals
 
-## Code of Conduct
+This project demonstrates practical experience with Laravel application development, relational database design, authentication, role-based authorization, file handling, workflow automation, and activity logging.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Author
 
-## Security Vulnerabilities
+**Reygin G. Susas**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- GitHub: <YOUR_GITHUB_PROFILE_URL>
+- Portfolio: <YOUR_PORTFOLIO_URL>
+- LinkedIn: <YOUR_LINKEDIN_PROFILE_URL>

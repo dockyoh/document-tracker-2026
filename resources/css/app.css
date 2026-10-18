@@ -142,6 +142,12 @@ button {
     width: 100%;
 }
 
+.upload-error-message {
+    text-align: center;
+    color: red;
+    margin-top: var(--spacing-l);
+}
+
 .signup-form,
 .login-form {
     margin-bottom: var(--spacing-xl);

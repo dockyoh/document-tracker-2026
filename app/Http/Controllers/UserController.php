@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use PhpParser\Node\Stmt\Else_;
 
 class UserController extends Controller
 {
@@ -39,13 +41,24 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, string $id): UserResource
+    public function update(UpdateUserRequest $request, string $id): UserResource|JsonResponse
     {
         $user = User::findOrFail($id);
 
         $validated = $request->validated();
 
-        if ($validated['role'] === 'admin') {
+        if ($user->status === 'pending') {
+            return response()->json([
+                'message' => 'NOT YET APPROVED'
+            ], 422);
+        } else if ($validated['role'] !== 'admin' && $user->role === 'admin') {
+            $adminCount = User::where('role', 'admin')->count();
+            if ($adminCount <= 1) {
+                return response()->json([
+                    'message' => 'ATLEAST ONE ADMIN REQUIRED'
+                ], 422);
+            }
+        } else if ($validated['role'] === 'admin') {
             $previewsAdmin = User::where('role', 'admin')->first();
             if ($user->role === 'department head') {
                 $previewsAdmin?->update([
@@ -60,7 +73,6 @@ class UserController extends Controller
                     'role' => 'staff'
                 ]);
             }
-            // $managementCount--;
         } else if ($validated['role'] === 'department head') {
             $previewsHead = User::where('role', 'department head')->first();
             if ($user->role === 'admin') {
@@ -76,7 +88,6 @@ class UserController extends Controller
                     'role' => 'staff'
                 ]);
             }
-            // $managementCount--;
         } else if ($validated['role'] === 'reviewer') {
             $previewsReviewer = User::where('role', 'reviewer')->first();
             if ($user->role === 'admin') {
@@ -92,7 +103,6 @@ class UserController extends Controller
                     'role' => 'staff'
                 ]);
             }
-            // $managementCount--;
         }
 
         $reviewerCount = User::where('role', 'reviewer')->count();

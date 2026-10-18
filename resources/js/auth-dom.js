@@ -19,3 +19,14 @@ export function renderAuthErrors(errors) {
 export function renderPrivatePage() {
     document.querySelector(".manage-role-link").style.display = "inline-block";
 }
+
+export function renderPasswordInput() {
+    console.log("Password input Activated");
+    document.querySelector("#password").value = "";
+    const passwordConfirmation = document.querySelector(
+        "#password_confirmation",
+    );
+    if (passwordConfirmation) {
+        passwordConfirmation.value = "";
+    }
+}

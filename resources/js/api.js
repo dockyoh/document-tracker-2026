@@ -5,8 +5,10 @@ import {
     renderDocuments,
     renderInboxTable,
     renderInboxBadge,
+    renderUploadErrors,
+    renderUploadError,
 } from "./dom.js";
-import { renderAuthErrors } from "./auth-dom.js";
+import { renderAuthErrors, renderPasswordInput } from "./auth-dom.js";
 
 export async function getDocumentsAPI(
     token,
@@ -90,12 +92,17 @@ export async function uploadAPI(formData, token) {
             body: formData,
         });
 
-        if (response.status === 401) {
-            window.location.href = "/user/login";
-            return;
-        }
+        const result = await response.json();
 
         if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = "/user/login";
+                return;
+            } else if (response.status === 422) {
+                console.log(result);
+                renderUploadError(result.message);
+                return;
+            }
             throw new Error(`HTTP status error ${response.status}`);
         }
 
@@ -125,7 +132,10 @@ export async function registerAPI(formData) {
                     registerusers.errors,
                 ).flat();
                 renderAuthErrors(registerErros);
+                renderPasswordInput();
+                return;
             }
+            throw new Error(`HTTP STATUS ERROR ${response.status}`);
         } else {
             window.location.href = "/user/login";
         }
@@ -147,9 +157,19 @@ export async function loginAPI(formData) {
 
         const loginuser = await response.json();
 
-        if (response.status === 401) {
-            renderAuthErrors([loginuser.message]);
-            return;
+        if (!response.ok) {
+            if (response.status === 401) {
+                renderAuthErrors([loginuser.message]);
+                renderPasswordInput();
+                return;
+            } else if (response.status === 500) {
+                window.location.href = "/user/register";
+                return;
+            } else if (response.status === 422) {
+                renderAuthErrors([loginuser.message]);
+                return;
+            }
+            throw new Error(`HTTP STATUS ERROR ${response.status}`);
         }
 
         console.log(loginuser.message);
@@ -242,12 +262,14 @@ export async function updateUserRoleAPI(id, roleData, token) {
 
         const result = await response.json();
 
-        if (response.status === 401) {
-            window.location.href = "/user/login";
-            return;
-        }
-
         if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = "/user/login";
+                return;
+            } else if (response.status === 422) {
+                window.location.href = "/user/view";
+                return;
+            }
             throw new Error(`HTTP status error ${response.status}`);
         }
 
@@ -459,6 +481,9 @@ export async function getNotificationCountAPI(token) {
         });
 
         if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = "/user/login";
+            }
             throw new Error(`HTTP ERROR STATUS : ${response.status}`);
         }
 

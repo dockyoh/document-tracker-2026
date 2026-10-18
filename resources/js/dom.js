@@ -25,6 +25,10 @@ export function renderUploadErrors(file, errorType) {
     templateContainer.appendChild(fragment);
 }
 
+export function renderUploadError(error) {
+    document.querySelector(".upload-error-message").textContent = error;
+}
+
 export function resetFileInput() {
     templateContainer.textContent = "";
     document.querySelector("#file-input").value = "";

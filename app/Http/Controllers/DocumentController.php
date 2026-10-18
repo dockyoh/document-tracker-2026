@@ -9,6 +9,7 @@ use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use App\Models\Feedback;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 
 // use Dom\Document;
@@ -55,31 +56,38 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDocumentRequest $request): DocumentResource
+    public function store(StoreDocumentRequest $request): DocumentResource|JsonResponse
     {
         $file = $request->file('document');
 
         $filePath = $file->store('documents', 'local');
 
         $focalPerson = User::where('role', 'reviewer')->first();
+        $departmentHead = User::where('role', 'department head')->first();
 
-        $document = Document::create([
-            'tracking_number' => 'DOC-' . strtoupper(Str::random(8)),
-            'title'           => $request->validated('title'),
-            'original_name'   => $file->getClientOriginalName(),
-            'file_path'       => $filePath,
-            'file_size'       => $file->getSize(),
-            'mime_type'       => $file->getMimeType(),
-            'status'          => 'Pending',
-            'uploader_id' => $request->user()->id,
-            'focal_person_id' => $focalPerson?->id
-        ]);
+        if ($focalPerson && $departmentHead) {
+            $document = Document::create([
+                'tracking_number' => 'DOC-' . strtoupper(Str::random(8)),
+                'title'           => $request->validated('title'),
+                'original_name'   => $file->getClientOriginalName(),
+                'file_path'       => $filePath,
+                'file_size'       => $file->getSize(),
+                'mime_type'       => $file->getMimeType(),
+                'status'          => 'Pending',
+                'uploader_id' => $request->user()->id,
+                'focal_person_id' => $focalPerson?->id
+            ]);
 
-        $document->activities()->create([
-            'user_id' => $request->user()->id,
-            'action' => 'upload',
-            'description' => $request->user()->name . ' uploaded the document and routed to reviewer ' . $focalPerson->name
-        ]);
+            $document->activities()->create([
+                'user_id' => $request->user()->id,
+                'action' => 'upload',
+                'description' => $request->user()->name . ' uploaded the document and routed to reviewer ' . $focalPerson->name
+            ]);
+        } else {
+            return response()->json([
+                'message' => "PLEASE CONTACT YOUR ADMINISTRATOR TO ASIGN REVIEWER AND DEPARTMENT HEAD"
+            ], 422);
+        }
 
         return new DocumentResource($document);
     }
