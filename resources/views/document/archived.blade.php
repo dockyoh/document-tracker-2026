@@ -51,7 +51,7 @@
             <div class="template-container template-container-archived"></div>
             <template class="document-item-template">
                 <li class="document-item" role="row">
-                    <span class="tracking-number" role="cell"></span>
+                    <span class="tracking-number" role="cell" title="Activity Log"></span>
                     <span class="file-name" role="cell"></span>
                     <span class="status" role="cell"></span>
                     <span class="focal" role="cell"></span>

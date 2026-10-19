@@ -55,39 +55,21 @@ Access to document content and actions depends on the user's permissions.
 - **Development environment:** Docker, Laravel Sail
 - **Version control:** Git, GitHub
 
-_Update this list to match the exact technologies and versions used in the project._
-
 ## Screenshots
 
-Add screenshots of the main application pages here.
-
-| Page             | Screenshot                              |
-| ---------------- | --------------------------------------- |
-| Dashboard        | `docs/screenshots/dashboard.png`        |
-| Document Inbox   | `docs/screenshots/inbox.png`            |
-| Document Details | `docs/screenshots/document-details.png` |
-| Activity History | `docs/screenshots/activity-history.png` |
-| Archive          | `docs/screenshots/archive.png`          |
-
-## Installation and Setup
-
-### Requirements
-
-- PHP version compatible with the project
-- Composer
-- Docker Desktop or Docker Engine
-- Node.js and npm, if required by the frontend build
-
-### 1. Clone the repository
-
-```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd <YOUR_PROJECT_DIRECTORY>
-```
+| Page                    | Screenshot                                                                              |
+| ----------------------- | --------------------------------------------------------------------------------------- |
+| Dashboard               | `https://drive.google.com/file/d/1OGVh2atYeWf9ciUppqRVMgAGgYClGLpq/view?usp=drive_link` |
+| Document Inbox Reviewer | `https://drive.google.com/file/d/14IhyYaCuVESErsxggGppU9RX81swJafO/view?usp=drive_link` |
+| Document Inbox Author   | `https://drive.google.com/file/d/1nQPRkqi0AxLyuXVIl0mDUERDxBNSoV1R/view?usp=drive_link` |
+| Document Details        | `https://drive.google.com/file/d/19l0-LMqSmvdCdWYRQOlY4amiVgs2EZdR/view?usp=drive_link` |
+| Activity History        | `https://drive.google.com/file/d/1oPBudXm2Kr0RQiO9GfVHaBNy2GnMWb-2/view?usp=drive_link` |
+| Archive                 | `https://drive.google.com/file/d/10xm-QSAGPZZCLdYkDNB7bmEstbVLqgud/view?usp=drive_link` |
 
 ## Live Demo
 
 **Demo URL:** <YOUR_LIVE_DEMO_URL>
+**Video Instruction:** <https://drive.google.com/file/d/1PmScpeFubVewTgIBTYD6CNaqJ8E0hoOu/view?usp=sharing>
 
 ## Project Goals
 
@@ -97,6 +79,6 @@ This project demonstrates practical experience with Laravel application developm
 
 **Reygin G. Susas**
 
-- GitHub: <YOUR_GITHUB_PROFILE_URL>
-- Portfolio: <YOUR_PORTFOLIO_URL>
-- LinkedIn: <YOUR_LINKEDIN_PROFILE_URL>
+- GitHub: <https://github.com/dockyoh>
+- Portfolio: <https://dockyoh.github.io/portfolio/>
+- LinkedIn: <https://www.linkedin.com/in/reygin-susas-a95866180/?isSelfProfile=true>
