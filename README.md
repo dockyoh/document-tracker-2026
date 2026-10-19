@@ -72,6 +72,14 @@ Access to document content and actions depends on the user's permissions.
 
 **Video Instruction:** <https://drive.google.com/file/d/1PmScpeFubVewTgIBTYD6CNaqJ8E0hoOu/view?usp=sharing>
 
+## Default User Password and Email
+
+- **Admin Email** — admin@gmail.com
+- **Admin Password** — 123
+
+- **Test Email** — test@example.com
+- **Test Password** — password
+
 ## Project Goals
 
 This project demonstrates practical experience with Laravel application development, relational database design, authentication, role-based authorization, file handling, workflow automation, and activity logging.
