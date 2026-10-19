@@ -294,10 +294,8 @@ export async function updateUserStatusAPI(token, userId) {
             throw new Error(`HTTP STATUS ERROR ${response.status}`);
         }
 
-        const result = await response.json();
-
-        console.log(result);
-        return result;
+        window.location.href = "/user/view";
+        return;
     } catch (error) {
         console.error("FAILED TO FETCH USERS AUPDATE", error);
     }

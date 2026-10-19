@@ -23,7 +23,7 @@
 </head>
 <body>
     <header>
-        <h1 class="page-title">Document Tracker</h1>
+        <h1 class="page-title">Dashboard</h1>
         <nav class="navbar">
             <ul>
                 <li><a href="/">Home</a></li>

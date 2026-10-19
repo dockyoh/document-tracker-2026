@@ -30,6 +30,7 @@ async function getUsers() {
     await getNotificationCountAPI(token);
 }
 
+// ASIGN ROLE
 templateContainerUser.addEventListener("change", async (e) => {
     if (e.target.matches(".user-role-form select")) {
         e.preventDefault();
@@ -53,11 +54,7 @@ templateContainerUser.addEventListener("click", async (e) => {
 
     if (e.target.closest(`.approve-btn-${userId}`)) {
         console.log(`Approve button number ${userId} activated`);
-        const result = updateUserStatusAPI(token, userId);
-        if (result) {
-            window.location.href = "/user/view";
-        }
-        return;
+        updateUserStatusAPI(token, userId);
     }
 });
 

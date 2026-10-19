@@ -103,8 +103,6 @@ templateContainerEl.addEventListener("click", async (e) => {
                     );
                     return;
                 }
-            } else {
-                return;
             }
         }
     }
