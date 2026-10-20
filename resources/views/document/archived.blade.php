@@ -9,6 +9,7 @@
     @vite('resources/css/app.css')
     @vite('resources/css/modal.css')
     @vite('resources/css/notification-badge.css')
+    @vite('resources/css/search.css')
     @vite('resources/js/archived.js')
     {{-- SECURITY GUARD VVV --}}
     <script>
@@ -38,6 +39,25 @@
         </div>
     </header>
     <main>
+        <form action="" method="post" class="search-filter">
+            <input type="text" name="search-input" id="search-input" placeholder="Search Title or Tracking number">
+            <div class="filter-container">
+                <p>Filter by:</p>
+                <select name="status" id="status">
+                    <option value="">--STATUS--</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <select name="author" id="author">
+                    <option value="">--AUTHOR--</option>
+                     <div class="author-template-container"></div>
+                    <template class="author-template">
+                        <option value=""></option>
+                    </template>
+                </select>
+                <button type="submit" class="search-btn">Search</button>
+            </div>
+       </form>
        <ul class="document-table-container" role="table" aria-label="Documents">
             <li class="column-name-container" role="row">
                 <span class="column-name" role="columnheader">Tracking Number</span>

@@ -3,19 +3,27 @@ import {
     getNotificationCountAPI,
     logoutAPI,
     previewArchivedAPI,
+    getDocumentsAPI,
+    archivedSearchFilterAPI,
 } from "./api.js";
 import { renderPrivatePage } from "./auth-dom.js";
 import { getUsername, isAdmin, isReviewer } from "./auth.js";
-import { renderLogUser, renderDocumentActivity } from "./dom.js";
+import {
+    renderLogUser,
+    renderDocumentActivity,
+    renderFilterAuthor,
+} from "./dom.js";
 
 const templateContainerArchivedEl = document.querySelector(
     ".template-container-archived",
 );
 const activityLogModalEl = document.querySelector(".activity-log-modal");
+const searchFormEl = document.querySelector(".search-filter");
 let archivedData;
 
 // REMOVE RESUBMIT LOCALSTORAGE DATA IF RESUBMIT/UPLOAD PAGE NO LONGER IN USE
 localStorage.removeItem("resubmitDoc");
+const users = localStorage.getItem("users");
 
 const token = localStorage.getItem("authToken");
 
@@ -28,6 +36,7 @@ getDocuments();
 
 async function getDocuments() {
     archivedData = await getArchivedDocumentsAPI(token);
+    renderFilterAuthor(users);
     await getNotificationCountAPI(token);
 }
 
@@ -70,3 +79,15 @@ function storeBlobUrls(key, newUrl) {
 
     localStorage.setItem(key, JSON.stringify(activeBlobUrls));
 }
+
+searchFormEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(searchFormEl);
+
+    const searchValue = formData.get("search-input");
+    const statusValue = formData.get("status");
+    const authorValue = formData.get("author");
+
+    await archivedSearchFilterAPI(token, searchValue, statusValue, authorValue);
+});
