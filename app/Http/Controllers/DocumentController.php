@@ -303,4 +303,30 @@ class DocumentController extends Controller
 
         return DocumentResource::collection($documents);
     }
+
+    public function archivedSearchFilter(Request $request): AnonymousResourceCollection
+    {
+        $search = $request->query('search');
+        $searchStatus = $request->query('status');
+        $searchAuthor = $request->query('author');
+
+        $documents = Document::with('uploader')->whereNotNull('archived_at')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('tracking_number', 'like', "%{$search}%")
+                        ->orWhere('title', 'like', "%{$search}%")
+                        ->orWhere('original_name', 'like', "%{$search}%");
+                });
+            })
+            ->when($searchStatus, function ($query, $searchStatus) {
+                $query->where('status', $searchStatus);
+            })
+            ->when($searchAuthor, function ($query, $searchAuthor) {
+                $query->where('uploader_id', $searchAuthor);
+            })
+            ->latest()
+            ->get();
+
+        return DocumentResource::collection($documents);
+    }
 }

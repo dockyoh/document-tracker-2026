@@ -493,3 +493,45 @@ export async function getNotificationCountAPI(token) {
         console.error("FAILED TO FETCH PENDING COUNT API ", error);
     }
 }
+
+export async function archivedSearchFilterAPI(
+    token,
+    searchInput = "",
+    searchStatus = "",
+    searchAuthor = "",
+) {
+    try {
+        const searchParams = new URLSearchParams({
+            search: searchInput,
+            status: searchStatus,
+            author: searchAuthor,
+        });
+
+        const response = await fetch(
+            `/api/documents/archivedSearchFilter?${searchParams.toString()}`,
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        );
+
+        const result = await response.json();
+
+        if (response.status === 401) {
+            window.location.href = "/user/login";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(`HTTP status error ${response.status}`);
+        }
+
+        renderDocuments(result.data);
+        return result.data;
+    } catch (error) {
+        console.error("FAILED TO FETCH DOCUMENTS ", error);
+    }
+}
