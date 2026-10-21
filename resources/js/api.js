@@ -99,8 +99,9 @@ export async function uploadAPI(formData, token) {
                 window.location.href = "/user/login";
                 return;
             } else if (response.status === 422) {
-                console.log(result);
+                console.log(result.message);
                 renderUploadError(result.message);
+                renderDoneLoading();
                 return;
             }
             throw new Error(`HTTP status error ${response.status}`);
