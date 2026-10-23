@@ -19,13 +19,13 @@ class StoreDocumentAction
         $focalPerson = User::where('role', 'reviewer')->first();
         $departmentHead = User::where('role', 'department head')->first();
 
-        if (!$focalPerson && !$departmentHead) {
+        if (!$focalPerson || !$departmentHead) {
             abort(422, "PLEASE CONTACT YOUR ADMINISTRATOR TO ASIGN REVIEWER AND DEPARTMENT HEAD");
         }
 
         $document = Document::create([
             'tracking_number' => 'DOC-' . strtoupper(Str::random(8)),
-            'title'           => $validatedData['title'],
+            'title'           => $validatedData['title'] ?? '',
             'original_name'   => $file->getClientOriginalName(),
             'file_path'       => $filePath,
             'file_size'       => $file->getSize(),

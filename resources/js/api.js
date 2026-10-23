@@ -94,6 +94,8 @@ export async function uploadAPI(formData, token) {
 
         const result = await response.json();
 
+        console.log(result);
+
         if (!response.ok) {
             if (response.status === 401) {
                 window.location.href = "/user/login";
@@ -432,13 +434,13 @@ export async function resubmitDocAPI(token, id, formData) {
             body: formData,
         });
 
+        const result = await response.json();
+        console.log(result);
+
         if (!response.ok) {
             throw new Error(`HTTP ERROR STATUS: ${response.status}`);
         }
 
-        const result = await response.json();
-
-        console.log(result);
         renderDoneLoading;
         window.location.href = "/";
     } catch (error) {

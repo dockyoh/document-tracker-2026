@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ResubmitDocumentAction;
 use App\Actions\StoreDocumentAction;
 use App\Http\Requests\ResubmitDocumentRequest;
 use App\Http\Requests\StoreDocumentRequest;
@@ -66,6 +67,20 @@ class DocumentController extends Controller
         );
 
         return new DocumentResource($document);
+    }
+
+    public function resubmit(ResubmitDocumentRequest $request, string $id, ResubmitDocumentAction $action): DocumentResource
+    {
+        $document = Document::findOrFail($id);
+
+        $document = $action->handle(
+            $document,
+            $request->validated(),
+            $request->file('document'),
+            $request->user()
+        );
+
+        return new DocumentResource($document->fresh());
     }
 
     /**
@@ -210,36 +225,6 @@ class DocumentController extends Controller
                 'Content-Disposition' => 'inline; filename = " ' . $document->original_name . ' "'
             ]
         );
-    }
-
-    public function resubmit(ResubmitDocumentRequest $request, string $id): DocumentResource
-    {
-        $document = Document::findOrFail($id);
-
-        $validated = $request->validated();
-
-        $reviewer = User::where('id', $validated['reviewer_id'])->first();
-
-        $file = $request->file('document');
-
-        $newFilePath = $file->store('documents', 'local');
-
-        $document->update([
-            'original_name'   => $file->getClientOriginalName(),
-            'file_path'       => $newFilePath,
-            'file_size'       => $file->getSize(),
-            'mime_type'       => $file->getMimeType(),
-            'status'          => 'Pending',
-            'focal_person_id' => $validated['reviewer_id']
-        ]);
-
-        $document->activities()->create([
-            'user_id' => $request->user()->id,
-            'action' => 'resubmit',
-            'description' => $request->user()->name . ' resubmitted the document and routed to ' . $reviewer->name
-        ]);
-
-        return new DocumentResource($document->fresh());
     }
 
     public function completeArchived(Request $request, string $id): DocumentResource
