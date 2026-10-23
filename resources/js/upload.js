@@ -1,6 +1,5 @@
 import {
     logoutAPI,
-    updateDocStatsAPI,
     uploadAPI,
     resubmitDocAPI,
     getNotificationCountAPI,

@@ -18,7 +18,7 @@ class InboxController extends Controller
     {
         $user = $request->user();
 
-        if ($user->role === "staff") {
+        if (in_array($user->role, ['staff', 'admin'], true)) {
             $documents = Document::with(['uploader', 'focalPerson', 'feedback.user'])
                 ->where('uploader_id', $user->id)
                 ->where("archived_at", null)
