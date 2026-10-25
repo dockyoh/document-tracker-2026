@@ -38,12 +38,11 @@ export async function getDocumentsAPI(
 
         const result = await response.json();
 
-        if (response.status === 401) {
-            window.location.href = "/user/login";
-            return;
-        }
-
         if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = "/user/login";
+                return;
+            }
             throw new Error(`HTTP status error ${response.status}`);
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ResubmitDocumentAction;
+use App\Actions\SearchFilterAction;
 use App\Actions\StoreDocumentAction;
 use App\Http\Requests\ResubmitDocumentRequest;
 use App\Http\Requests\StoreDocumentRequest;
@@ -27,28 +28,9 @@ class DocumentController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $search = $request->query('search');
-        $searchStatus = $request->query('status');
-        $searchFocal = $request->query('focal');
-        $searchAuthor = $request->query('author');
-
-        $documents = Document::with(['uploader', 'focalPerson'])->whereNull('archived_at')
-            ->when($search, function ($query, $search) {
-                $query->where(function ($query) use ($search) {
-                    $query->where('tracking_number', 'like', "%{$search}%")
-                        ->orWhere('title', 'like', "%{$search}%")
-                        ->orWhere('original_name', 'like', "%{$search}%");
-                });
-            })
-            ->when($searchStatus, function ($query, $searchStatus) {
-                $query->where('status', $searchStatus);
-            })
-            ->when($searchFocal, function ($query, $searchFocal) {
-                $query->where('focal_person_id', $searchFocal);
-            })
-            ->when($searchAuthor, function ($query, $searchAuthor) {
-                $query->where('uploader_id', $searchAuthor);
-            })
+        $documents = Document::with(['uploader', 'focalPerson'])
+            ->whereNull('archived_at')
+            ->searchFilter($request->only(['search', 'status', 'focal', 'author']))
             ->latest()
             ->get();
 
