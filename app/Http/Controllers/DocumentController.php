@@ -40,9 +40,9 @@ class DocumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDocumentRequest $request, StoreDocumentAction $action): DocumentResource
+    public function store(StoreDocumentRequest $request, StoreDocumentAction $storeAction): DocumentResource
     {
-        $document = $action->handle(
+        $document = $storeAction->handle(
             $request->validated(),
             $request->file('document'),
             $request->user()
@@ -51,11 +51,11 @@ class DocumentController extends Controller
         return new DocumentResource($document);
     }
 
-    public function resubmit(ResubmitDocumentRequest $request, string $id, ResubmitDocumentAction $action): DocumentResource
+    public function resubmit(ResubmitDocumentRequest $request, string $id, ResubmitDocumentAction $resubmitAction): DocumentResource
     {
         $document = Document::findOrFail($id);
 
-        $document = $action->handle(
+        $document = $resubmitAction->handle(
             $document,
             $request->validated(),
             $request->file('document'),

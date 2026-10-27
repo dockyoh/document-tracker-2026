@@ -22,7 +22,7 @@ class InboxController extends Controller
             $documents = Document::with(['uploader', 'focalPerson', 'feedback.user'])
                 ->where('uploader_id', $user->id)
                 ->where("archived_at", null)
-                ->where('status', '!=', 'Pending')
+                ->whereIn('status', ['Revise', 'Approved', 'Rejected'])
                 ->latest()
                 ->get();
         } else {

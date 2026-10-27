@@ -21,8 +21,8 @@ const templateContainerEl = document.querySelector(".template-container");
 const inboxModal = document.querySelector(".inbox-modal");
 const reviseModal = document.querySelector(".inbox-modal_revise");
 const feedbackModal = document.querySelector(".inbox-modal_preview-feedback");
-const reviseForm = document.querySelector(".revise-form");
 const activityLogModalEl = document.querySelector(".activity-log-modal");
+const reviseForm = document.querySelector(".revise-form");
 const token = localStorage.getItem("authToken");
 const user = getCurrentUser();
 let rejectedStatus = false;
@@ -55,12 +55,24 @@ document
 templateContainerEl.addEventListener("click", async (e) => {
     if (e.target.closest(".document-item")) {
         docId = e.target.closest(".document-item").dataset.documentId;
+
         const docIndex =
             e.target.closest(".document-item").dataset.documentIndex;
+
         docTitle = inboxDocuments[docIndex].original_name;
 
+        // COMPLETE BUTTON
+        if (e.target.closest(`.complete-btn-${docId}`)) {
+            console.log(`Complete button activated for document ID: ${docId}`);
+            const completedDocument = await completeArchivedAPI(token, docId);
+            if (completedDocument) {
+                console.log(completedDocument.data);
+                window.location.href = "/user/inbox";
+            }
+            return;
+        }
         // ACTIVITY LOG/DOCUMENT HISTORY
-        if (e.target.closest(`.tracking-number-${docId}`)) {
+        else if (e.target.closest(`.tracking-number-${docId}`)) {
             console.log(`activity log modal activated for doc id ${docId}`);
             activityLogModalEl.showModal();
 
@@ -69,11 +81,11 @@ templateContainerEl.addEventListener("click", async (e) => {
                 docTitle,
             );
             return;
-        } else if (user.role !== "staff") {
+        } else if (user.role !== "staff" && user.role !== "admin") {
             const docStats = {
                 status: "Review",
             };
-            updateDocStatsAPI(token, docId, docStats);
+            await updateDocStatsAPI(token, docId, docStats);
             inboxModal.showModal();
             renderDocumentTitle(docTitle);
         } else {
@@ -107,17 +119,6 @@ templateContainerEl.addEventListener("click", async (e) => {
         }
     }
 
-    // COMPLETE BUTTON
-    if (e.target.closest(`.complete-btn-${docId}`)) {
-        console.log(`Complete button activated for document ID: ${docId}`);
-        const completedDocument = await completeArchivedAPI(token, docId);
-        if (completedDocument) {
-            console.log(completedDocument.data);
-            window.location.href = "/user/inbox";
-        }
-        return;
-    }
-
     const previewURL = await documentPreviewAPI(token, docId);
     storeBlobUrls("blobUrls", previewURL);
 });
@@ -126,8 +127,6 @@ templateContainerEl.addEventListener("click", async (e) => {
 inboxModal.addEventListener("click", async (e) => {
     if (e.target.closest(".close-btn")) {
         inboxModal.close();
-        window.location.href = "/user/inbox";
-        return;
     }
 
     if (e.target.closest(".approve-btn")) {
@@ -143,12 +142,12 @@ inboxModal.addEventListener("click", async (e) => {
             };
         }
     } else if (e.target.closest(".revision-btn")) {
-        showCloseModals();
+        showReviseModal();
         renderDocumentTitle(docTitle, "Request Revision");
         return;
     } else if (e.target.closest(".reject-btn")) {
         rejectedStatus = true;
-        showCloseModals();
+        showReviseModal();
         renderDocumentTitle(docTitle, "Request Rejection");
         return;
     }
@@ -202,9 +201,6 @@ async function updateDocStats() {
     if (docStats !== null) {
         await updateDocStatsAPI(token, docId, docStats);
         inboxModal.close();
-        reviseModal.close();
-        window.location.href = "/user/inbox";
-        return;
     }
 }
 
@@ -229,12 +225,10 @@ function getFeedbackFormData() {
         }
 
         updateDocStats();
-        // console.log(docStats);
     });
 }
 
-function showCloseModals() {
-    inboxModal.close();
+function showReviseModal() {
     reviseModal.showModal();
 }
 
@@ -255,3 +249,7 @@ function storeBlobUrls(key, newUrl) {
 
     localStorage.setItem(key, JSON.stringify(activeBlobUrls));
 }
+
+inboxModal.addEventListener("close", (event) => {
+    window.location.reload();
+});
