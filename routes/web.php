@@ -13,3 +13,5 @@ Route::view('/user/inbox', 'user.inbox');
 
 Route::view('/document/upload', 'document.upload');
 Route::view('/document/archived', 'document.archived');
+
+Route::view('/react/react-test', 'react.react-test');

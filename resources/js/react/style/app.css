@@ -1,0 +1,19 @@
+*,
+::before,
+::after {
+    margin: 0px;
+    padding: 0px;
+    object-fit: cover;
+    box-sizing: border-box;
+    color: white;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+}
+
+.app-container {
+    max-width: 750px;
+    margin: auto;
+}
