@@ -2,15 +2,25 @@ import { useState } from "react";
 import "../style/document-card.css";
 
 function DocumentCard({ document, setDocuments }) {
-    function updateStatus() {
+    const [isHidden, setIsHidden] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+
+    function documentAction(action) {
+        console.log(action);
         setDocuments((prevDocuments) =>
             prevDocuments.map((item) =>
-                item.id === document.id
-                    ? { ...item, status: "Reviewed" }
-                    : item,
+                item.id === document.id ? { ...item, status: action } : item,
             ),
         );
-        console.log("Document Reviewed");
+
+        action !== "Reviewed" && setIsHidden(true);
+        action === "Reviewed" && setIsDisabled(false);
+    }
+
+    function removeDocument() {
+        setDocuments((prevDocuments) =>
+            prevDocuments.filter((item) => item.id !== document.id && item),
+        );
     }
 
     return (
@@ -21,10 +31,33 @@ function DocumentCard({ document, setDocuments }) {
                 <span className="doc-status">{document.status}</span>
             </div>
             <div className="doc-actions-btn-container">
-                <button onClick={updateStatus}>Preview</button>
-                <button>Approve</button>
-                <button>Revise</button>
-                <button>Reject</button>
+                <button onClick={() => documentAction("Reviewed")}>
+                    Preview
+                </button>
+                {isHidden ? (
+                    <button onClick={removeDocument}>Remove</button>
+                ) : (
+                    <>
+                        <button
+                            onClick={() => documentAction("Approved")}
+                            disabled={isDisabled}
+                        >
+                            Approve
+                        </button>
+                        <button
+                            onClick={() => documentAction("Revise")}
+                            disabled={isDisabled}
+                        >
+                            Revise
+                        </button>
+                        <button
+                            onClick={() => documentAction("Reject")}
+                            disabled={isDisabled}
+                        >
+                            Reject
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );
