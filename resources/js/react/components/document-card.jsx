@@ -6,7 +6,6 @@ function DocumentCard({ document, setDocuments }) {
     const [isDisabled, setIsDisabled] = useState(true);
 
     function documentAction(action) {
-        console.log(action);
         setDocuments((prevDocuments) =>
             prevDocuments.map((item) =>
                 item.id === document.id ? { ...item, status: action } : item,
